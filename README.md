@@ -59,6 +59,7 @@ func MessageReceived(event messenger.Event, opts messenger.MessageOpts, msg mess
 }
 ```
 
+### Sending messages
 
 ## Example
 

@@ -37,17 +37,16 @@ func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
 		rw.Write([]byte(query.Get("hub.challenge")))
 	} else if req.Method == "POST" {
 		read, err := ioutil.ReadAll(req.Body)
+
 		if err != nil {
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		fmt.Println(string(read))
 		//Message integrity check
 		if m.AppSecret != "" {
 			mac := hmac.New(sha1.New, []byte(m.AppSecret))
 			mac.Write(read)
-			if !hmac.Equal(mac.Sum(nil), []byte(req.Header.Get("x-hub-signature"))) {
-				fmt.Println("wrong signatures")
+			if fmt.Sprintf("%x", mac.Sum(nil)) != req.Header.Get("x-hub-signature")[5:] {
 				rw.WriteHeader(http.StatusBadRequest)
 				return
 			}
@@ -55,7 +54,6 @@ func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
 		event := &rawEvent{}
 		err = json.Unmarshal(read, event)
 		if err != nil {
-			fmt.Println(err)
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}

@@ -10,6 +10,7 @@ import (
 
 var mess = &messenger.Messenger{
 	AccessToken: "ACCESS_TOKEN",
+	AppSecret:   "APP_SECRET",
 }
 
 func main() {
@@ -19,9 +20,7 @@ func main() {
 }
 
 func MessageReceived(event messenger.Event, opts messenger.MessageOpts, msg messenger.ReceivedMessage) {
-	resp, err := mess.SendMessage(messenger.MessageQuery{Recipient: messenger.Recipient{ID: opts.Sender.ID}, Message: messenger.Message{
-		Text: msg.Text,
-	}})
+	resp, err := mess.SendSimpleMessage(opts.Sender.ID, msg.Text)
 	if err != nil {
 		fmt.Println(err)
 	}
