@@ -9,7 +9,7 @@ import (
 )
 
 var mess = &messenger.Messenger{
-	AccessToken: "EAAYRloZALk2cBAGahz3hMWWVZB0JgQOhvC27IBRgZA3Lm6QDIfIyZChVuJnmRZBfKl6B3ZADSJNUrrgacD04i1No23QMWqPaajUM7bjV2LBL3apM6mSYr2S1A4JIynEWja7T4ZAFAFuQp2APerrxrIeIZCNH06ZCZBEWFntKn5LDU46AZDZD",
+	AccessToken: "ACCESS_TOKEN",
 }
 
 func main() {
