@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -19,10 +20,10 @@ type Messenger struct {
 	AppSecret        string
 	AccessToken      string
 	PageID           string
-	MessageReceived  *MessageReceivedHandler
-	MessageDelivered *MessageDeliveredHandler
-	Postback         *PostbackHandler
-	Authentication   *AuthenticationHandler
+	MessageReceived  MessageReceivedHandler
+	MessageDelivered MessageDeliveredHandler
+	Postback         PostbackHandler
+	Authentication   AuthenticationHandler
 }
 
 func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
@@ -40,40 +41,45 @@ func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		fmt.Println(string(read))
 		//Message integrity check
 		if m.AppSecret != "" {
 			mac := hmac.New(sha1.New, []byte(m.AppSecret))
 			mac.Write(read)
 			if !hmac.Equal(mac.Sum(nil), []byte(req.Header.Get("x-hub-signature"))) {
+				fmt.Println("wrong signatures")
 				rw.WriteHeader(http.StatusBadRequest)
 				return
 			}
 		}
-		event := &MessageEvent{}
+		event := &rawEvent{}
 		err = json.Unmarshal(read, event)
 		if err != nil {
+			fmt.Println(err)
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		for _, message := range event.Messaging {
-			if message.Delivery != nil {
-				if m.MessageDelivered != nil {
-					(*m.MessageDelivered)(event.Event, message.MessageOpts, *message.Delivery)
+		for _, entry := range event.Entries {
+			for _, message := range entry.Messaging {
+				if message.Delivery != nil {
+					if m.MessageDelivered != nil {
+						m.MessageDelivered(entry.Event, message.MessageOpts, *message.Delivery)
+					}
+				} else if message.Message != nil {
+					if m.MessageReceived != nil {
+						m.MessageReceived(entry.Event, message.MessageOpts, *message.Message)
+					}
+				} else if message.Postback != nil {
+					if m.Postback != nil {
+						m.Postback(entry.Event, message.MessageOpts, *message.Postback)
+					}
+				} else if m.Authentication != nil {
+					m.Authentication(entry.Event, message.MessageOpts, message.Optin)
 				}
-			} else if message.Message != nil {
-				if m.MessageReceived != nil {
-					(*m.MessageReceived)(event.Event, message.MessageOpts, *message.Message)
-				}
-			} else if message.Postback != nil {
-				if m.Postback != nil {
-					(*m.Postback)(event.Event, message.MessageOpts, *message.Postback)
-				}
-			} else if m.Authentication != nil {
-				(*m.Authentication)(event.Event, message.MessageOpts, message.Optin)
 			}
 		}
-		rw.Write([]byte(`{"status":"ok"}`))
 		rw.WriteHeader(http.StatusOK)
+		rw.Write([]byte(`{"status":"ok"}`))
 	} else {
 		rw.WriteHeader(http.StatusMethodNotAllowed)
 	}
@@ -84,6 +90,7 @@ func (m *Messenger) doRequest(method string, url string, body io.Reader) (*http.
 	if err != nil {
 		return nil, err
 	}
+	req.Header.Set("Content-Type", "application/json")
 	query := req.URL.Query()
 	query.Set("access_token", m.AccessToken)
 	req.URL.RawQuery = query.Encode()

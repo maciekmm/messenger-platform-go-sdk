@@ -6,16 +6,16 @@ type rawEvent struct {
 }
 
 type Event struct {
-	ID   string `json:"id"`
-	Time int64  `json:"time"`
+	ID   int64 `json:"id"`
+	Time int64 `json:"time"`
 }
 
 type MessageOpts struct {
 	Sender struct {
-		ID string `json:"id"`
+		ID int64 `json:"id"`
 	} `json:"sender"`
 	Recipient struct {
-		ID string `json:"id"`
+		ID int64 `json:"id"`
 	} `json:"recipient"`
 	Timestamp int64 `json:"timestamp"`
 }

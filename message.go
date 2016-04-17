@@ -4,18 +4,19 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io/ioutil"
 	"net/http"
 )
 
 type Message struct {
-	Text       string     `json:"text,omiempty"`
-	Attachment Attachment `json:"attachment,omitempty"`
+	Text       string      `json:"text,omiempty"`
+	Attachment *Attachment `json:"attachment,omitempty"`
 }
 
 // Recipient describes the person who will receive the message
 // Either ID or PhoneNumber has to be set
 type Recipient struct {
-	ID          string `json:"id,omitempty"`
+	ID          int64  `json:"id,omitempty"`
 	PhoneNumber string `json:"phone_number,omitempty"`
 }
 
@@ -32,8 +33,8 @@ const (
 )
 
 type MessageQuery struct {
-	Recipient
-	Message          Message `json:"message"`
+	Recipient        Recipient `json:"recipient"`
+	Message          Message   `json:"message"`
 	NotificationType `json:"notification_type,omitempty"`
 }
 
@@ -47,12 +48,8 @@ type rawMessage struct {
 	MessageQuery
 }
 
-func (m *Messenger) SendMessage(recipient Recipient, mq MessageQuery) (*MessageResponse, error) {
-	rm := &rawMessage{
-		Recipient:    recipient,
-		MessageQuery: mq,
-	}
-	byt, err := json.Marshal(rm)
+func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
+	byt, err := json.Marshal(mq)
 	if err != nil {
 		return nil, err
 	}
@@ -61,11 +58,12 @@ func (m *Messenger) SendMessage(recipient Recipient, mq MessageQuery) (*MessageR
 		return nil, err
 	}
 	defer resp.Body.Close()
+	read, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
+		//TODO: Parse error
 		return nil, errors.New("Invalid status code")
 	}
-	decoder := json.NewDecoder(resp.Body)
 	response := &MessageResponse{}
-	err = decoder.Decode(response)
+	err = json.Unmarshal(read, response)
 	return response, err
 }
