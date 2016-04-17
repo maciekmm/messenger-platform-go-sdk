@@ -60,8 +60,9 @@ func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
 	defer resp.Body.Close()
 	read, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		//TODO: Parse error
-		return nil, errors.New("Invalid status code")
+		er := new(Error)
+		json.Unmarshal(read, er)
+		return nil, errors.New("Error occured: " + er.Message)
 	}
 	response := &MessageResponse{}
 	err = json.Unmarshal(read, response)
