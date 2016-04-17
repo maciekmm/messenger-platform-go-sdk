@@ -1,4 +1,4 @@
-package templates
+package template
 
 const TemplateTypeButton TemplateType = "button"
 

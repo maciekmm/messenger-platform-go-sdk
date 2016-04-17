@@ -1,4 +1,4 @@
-package templates
+package template
 
 // ButtonType defines the behavior of the button in the ButtonTemplate
 type ButtonType string

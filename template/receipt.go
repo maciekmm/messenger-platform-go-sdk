@@ -1,4 +1,4 @@
-package templates
+package template
 
 const TemplateTypeReceipt TemplateType = "receipt"
 
@@ -15,7 +15,7 @@ type ReceiptTemplate struct {
 	Adjustments   []Adjustment     `json:"adjustments,omitempty"`
 }
 
-func (rt *ReceiptTemplate) Type() TemplateType {
+func (*ReceiptTemplate) Type() TemplateType {
 	return TemplateTypeReceipt
 }
 
