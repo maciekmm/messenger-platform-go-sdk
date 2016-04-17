@@ -26,7 +26,7 @@ type Messenger struct {
 }
 
 func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
-	if req.Method == http.MethodGet {
+	if req.Method == "GET" {
 		query := req.URL.Query()
 		if query.Get("hub.verify_token") != m.VerifyToken {
 			rw.WriteHeader(http.StatusUnauthorized)
@@ -34,7 +34,7 @@ func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
 		}
 		rw.WriteHeader(http.StatusOK)
 		rw.Write([]byte(query.Get("hub.challenge")))
-	} else if req.Method == http.MethodPost {
+	} else if req.Method == "POST" {
 		read, err := ioutil.ReadAll(req.Body)
 		if err != nil {
 			rw.WriteHeader(http.StatusBadRequest)

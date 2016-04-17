@@ -36,7 +36,7 @@ func (m *Messenger) SetWelcomeMessage(message *Message) error {
 	if err != nil {
 		return err
 	}
-	resp, err := m.doRequest(http.MethodPost, fmt.Sprintf("https://graph.facebook.com/v2.6/%s/thread_settings", m.PageID), bytes.NewReader(byt))
+	resp, err := m.doRequest("POST", fmt.Sprintf("https://graph.facebook.com/v2.6/%s/thread_settings", m.PageID), bytes.NewReader(byt))
 	if err != nil {
 		return err
 	}
