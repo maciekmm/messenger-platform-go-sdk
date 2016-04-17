@@ -9,23 +9,22 @@ const (
 )
 
 type Attachment struct {
-	Type    AttachmentType
-	Payload interface{}
+	Type    AttachmentType `json:"type"`
+	Payload interface{}    `json:"payload,omitempty"`
 }
 
 // func (a *Attachment) MarshalJSON() ([]byte, error) {
-// 	att := &rawAttachment{
-// 		Payload: a.Payload,
+// 	if a.Type == "" {
+// 		switch a.Payload.(type) {
+// 		case template.Payload:
+// 			a.Type = AttachmentTypeTemplate
+// 		case Resource:
+// 			a.Type = AttachmentTypeImage //best guess
+// 		default:
+// 			return []byte{}, errors.New("Invalid payload")
+// 		}
 // 	}
-// 	switch a.Payload.(type) {
-// 	case template.Payload:
-// 		att.Type = AttachmentTypeTemplate
-// 	case Image:
-// 		att.Type = AttachmentTypeImage
-// 	default:
-// 		return []byte{}, errors.New("Invalid payload")
-// 	}
-// 	return json.Marshal(att)
+// 	return json.NewEncoder()
 // }
 
 type Resource struct {

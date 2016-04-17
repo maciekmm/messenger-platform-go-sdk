@@ -61,18 +61,18 @@ func (m *Messenger) Handler(rw http.ResponseWriter, req *http.Request) {
 			for _, message := range entry.Messaging {
 				if message.Delivery != nil {
 					if m.MessageDelivered != nil {
-						m.MessageDelivered(entry.Event, message.MessageOpts, *message.Delivery)
+						go m.MessageDelivered(entry.Event, message.MessageOpts, *message.Delivery)
 					}
 				} else if message.Message != nil {
 					if m.MessageReceived != nil {
-						m.MessageReceived(entry.Event, message.MessageOpts, *message.Message)
+						go m.MessageReceived(entry.Event, message.MessageOpts, *message.Message)
 					}
 				} else if message.Postback != nil {
 					if m.Postback != nil {
-						m.Postback(entry.Event, message.MessageOpts, *message.Postback)
+						go m.Postback(entry.Event, message.MessageOpts, *message.Postback)
 					}
 				} else if m.Authentication != nil {
-					m.Authentication(entry.Event, message.MessageOpts, message.Optin)
+					go m.Authentication(entry.Event, message.MessageOpts, message.Optin)
 				}
 			}
 		}

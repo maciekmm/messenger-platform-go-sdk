@@ -16,8 +16,8 @@ type Payload struct {
 }
 
 type rawPayload struct {
-	Type TemplateType `json:"template_type"`
-	Payload
+	Type     TemplateType `json:"template_type"`
+	Elements []Template   `json:"elements"`
 }
 
 func (p *Payload) MarshalJSON() ([]byte, error) {
