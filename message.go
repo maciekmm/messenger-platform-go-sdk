@@ -67,3 +67,14 @@ func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
 	err = json.Unmarshal(read, response)
 	return response, err
 }
+
+func (m *Messenger) SendSimpleMessage(recipient int64, message string) (*MessageResponse, error) {
+	return m.SendMessage(MessageQuery{
+		Recipient: Recipient{
+			ID: recipient,
+		},
+		Message: Message{
+			Text: message,
+		},
+	})
+}
