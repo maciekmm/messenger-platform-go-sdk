@@ -2,7 +2,7 @@ package template
 
 const TemplateTypeGeneric TemplateType = "generic"
 
-type Generic struct {
+type GenericTemplate struct {
 	// Title is limited to 45 characters
 	Title    string `json:"title"`
 	ItemURL  string `json:"item_url,omitempty"`
@@ -12,6 +12,6 @@ type Generic struct {
 	Buttons  []Button `json:"buttons,omitempty"`
 }
 
-func (Generic) Type() TemplateType {
+func (GenericTemplate) Type() TemplateType {
 	return TemplateTypeGeneric
 }

@@ -14,7 +14,7 @@ func init() {
 				Type: messenger.AttachmentTypeTemplate,
 				Payload: &template.Payload{
 					Elements: []template.Template{
-						template.Generic{Title: "abc",
+						template.GenericTemplate{Title: "abc",
 							Buttons: []template.Button{
 								template.Button{
 									Type:    template.ButtonTypePostback,
