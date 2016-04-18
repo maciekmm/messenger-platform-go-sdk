@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -22,10 +23,12 @@ func (m *Messenger) GetProfile(userID int64) (*Profile, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+	read, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("Invalid status code")
+		er := new(Error)
+		json.Unmarshal(read, er)
+		return nil, errors.New("Error occured: " + er.Message)
 	}
-	decoder := json.NewDecoder(resp.Body)
 	profile := new(Profile)
-	return profile, decoder.Decode(profile)
+	return profile, json.Unmarshal(read, profile)
 }
