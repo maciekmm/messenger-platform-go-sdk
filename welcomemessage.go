@@ -23,7 +23,7 @@ type cta struct {
 	CallToActions []*Message `json:"call_to_actions"`
 }
 
-type Result struct {
+type result struct {
 	Result string `json:"result"`
 }
 
@@ -40,7 +40,7 @@ func (m *Messenger) SetWelcomeMessage(message *Message) error {
 	if err != nil {
 		return err
 	}
-	resp, err := m.doRequest("POST", fmt.Sprintf("https://graph.facebook.com/v2.6/%s/thread_settings", m.PageID), bytes.NewReader(byt))
+	resp, err := m.doRequest("POST", fmt.Sprintf(GraphAPI+"/v2.6/%s/thread_settings", m.PageID), bytes.NewReader(byt))
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (m *Messenger) SetWelcomeMessage(message *Message) error {
 		return errors.New("Invalid status code")
 	}
 	decoder := json.NewDecoder(resp.Body)
-	result := &Result{}
+	result := &result{}
 	err = decoder.Decode(result)
 	if err != nil {
 		return err
