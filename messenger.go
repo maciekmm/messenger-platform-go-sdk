@@ -105,7 +105,8 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 
 func checkIntegrity(appSecret string, bytes []byte, expectedSignature string) bool {
 	mac := hmac.New(sha1.New, []byte(appSecret))
-	if fmt.Sprintf("%x", mac.Sum(bytes)) != expectedSignature {
+	mac.Write(bytes)
+	if fmt.Sprintf("%x", mac.Sum(nil)) != expectedSignature {
 		return false
 	}
 	return true

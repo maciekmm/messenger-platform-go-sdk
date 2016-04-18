@@ -2,9 +2,6 @@ package messenger
 
 import (
 	"encoding/json"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"reflect"
 	"testing"
 )
@@ -20,17 +17,12 @@ func TestGetProfile(t *testing.T) {
 		ProfilePicture: "https://example.com/",
 	}
 
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
-		marshalled, _ := json.Marshal(mockData)
-		w.Write(marshalled)
-	}))
-
-	http.DefaultClient.Transport = &http.Transport{
-		Proxy: func(req *http.Request) (*url.URL, error) {
-			return url.Parse(server.URL)
-		},
+	body, err := json.Marshal(mockData)
+	if err != nil {
+		t.Error(err)
 	}
+
+	setClient(200, body)
 
 	profile, err := messenger.GetProfile(123)
 	if err != nil {
@@ -38,5 +30,18 @@ func TestGetProfile(t *testing.T) {
 	}
 	if !reflect.DeepEqual(profile, mockData) {
 		t.Error("Profiles do not match")
+	}
+
+	errorData := &Error{
+		Message: "w/e",
+	}
+	body, err = json.Marshal(errorData)
+	if err != nil {
+		t.Error(err)
+	}
+	setClient(400, body)
+	_, err = messenger.GetProfile(123)
+	if err.Error() != "Error occured: "+errorData.Message {
+		t.Error("Invalid error parsing")
 	}
 }
