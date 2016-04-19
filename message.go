@@ -53,7 +53,7 @@ func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := m.doRequest("POST", "https://graph.facebook.com/v2.6/me/messages", bytes.NewReader(byt))
+	resp, err := m.doRequest("POST", GraphAPI+"/v2.6/me/messages", bytes.NewReader(byt))
 	if err != nil {
 		return nil, err
 	}
