@@ -25,9 +25,9 @@ func (m *Messenger) GetProfile(userID int64) (*Profile, error) {
 	defer resp.Body.Close()
 	read, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		er := new(Error)
+		er := new(rawError)
 		json.Unmarshal(read, er)
-		return nil, errors.New("Error occured: " + er.Message)
+		return nil, errors.New("Error occured: " + er.Error.Message)
 	}
 	profile := new(Profile)
 	return profile, json.Unmarshal(read, profile)

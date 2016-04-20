@@ -32,16 +32,16 @@ func TestGetProfile(t *testing.T) {
 		t.Error("Profiles do not match")
 	}
 
-	errorData := &Error{
+	errorData := &rawError{Error: Error{
 		Message: "w/e",
-	}
+	}}
 	body, err = json.Marshal(errorData)
 	if err != nil {
 		t.Error(err)
 	}
 	setClient(400, body)
 	_, err = messenger.GetProfile(123)
-	if err.Error() != "Error occured: "+errorData.Message {
+	if err.Error() != "Error occured: "+errorData.Error.Message {
 		t.Error("Invalid error parsing")
 	}
 }
