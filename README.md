@@ -10,21 +10,21 @@ A Go SDK for the [Facebook Messenger Platform](https://developers.facebook.com/d
 ## Installation
 
 ```bash
-go get ./...
+go get github.com/maciekmm/messenger-platform-go-sdk
 ```
 
 ## Usage
 
-The main package has been named `messanger` for convenience. 
+The main package has been named `messenger` for convenience. 
 
-Your first step is to create `Messanger` instance.
+Your first step is to create `Messenger` instance.
 
 ```go
-import "https://github.com/maciekmm/messenger-platform-go-sdk"
+import "github.com/maciekmm/messenger-platform-go-sdk"
 
 //...
 
-messanger := &messanger.Messanger {
+messenger := &messenger.Messenger {
 	VerifyToken: "VERIFY_TOKEN/optional",
 	AppSecret: "APP_SECRET/optional",
 	AccessToken: "PAGE_ACCESS_TOKEN",
@@ -42,7 +42,7 @@ The next step is to hook up the handler to your HTTP server.
 
 ```go
 //hook up
-http.HandleFunc("/webhook", messanger.Handler)
+http.HandleFunc("/webhook", messenger.Handler)
 //start the server
 http.ListenAndServe(":5646", nil)
 ```
@@ -50,7 +50,7 @@ http.ListenAndServe(":5646", nil)
 The next step is to *subscribe* to an event, to do that you have to hook up your own handler.
 
 ```go
-messanger.MessageReceived = MessageReceived
+messenger.MessageReceived = MessageReceived
 
 //...
 
