@@ -15,6 +15,9 @@ func TestGetProfile(t *testing.T) {
 		FirstName:      "John",
 		LastName:       "Smith",
 		ProfilePicture: "https://example.com/",
+		Gender:         "male",
+		Timezone:       -5,
+		Locale:         "en_US",
 	}
 
 	body, err := json.Marshal(mockData)
