@@ -6,6 +6,8 @@ const (
 	AttachmentTypeTemplate AttachmentType = "template"
 	AttachmentTypeImage    AttachmentType = "image"
 	AttachmentTypeVideo    AttachmentType = "video"
+	AttachmentTypeAudio    AttachmentType = "audio"
+	AttachmentTypeLocation AttachmentType = "location"
 )
 
 type Attachment struct {
@@ -29,4 +31,11 @@ type Attachment struct {
 
 type Resource struct {
 	URL string `json:"url"`
+}
+
+type Location struct {
+	Coordinates struct {
+		Latitude  float64 `json:"lat"`
+		Longitude float64 `json:"long"`
+	} `json:"coordinates"`
 }
