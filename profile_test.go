@@ -27,7 +27,7 @@ func TestGetProfile(t *testing.T) {
 
 	setClient(200, body)
 
-	profile, err := messenger.GetProfile(123)
+	profile, err := messenger.GetProfile("123")
 	if err != nil {
 		t.Error(err)
 	}
@@ -43,7 +43,7 @@ func TestGetProfile(t *testing.T) {
 		t.Error(err)
 	}
 	setClient(400, body)
-	_, err = messenger.GetProfile(123)
+	_, err = messenger.GetProfile("123")
 	if err.Error() != "Error occured: "+errorData.Error.Message {
 		t.Error("Invalid error parsing")
 	}

@@ -16,7 +16,7 @@ type Message struct {
 // Recipient describes the person who will receive the message
 // Either ID or PhoneNumber has to be set
 type Recipient struct {
-	ID          int64  `json:"id,string,omitempty"`
+	ID          string `json:"id,omitempty"`
 	PhoneNumber string `json:"phone_number,omitempty"`
 }
 
@@ -69,7 +69,7 @@ func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
 	return response, err
 }
 
-func (m *Messenger) SendSimpleMessage(recipient int64, message string) (*MessageResponse, error) {
+func (m *Messenger) SendSimpleMessage(recipient string, message string) (*MessageResponse, error) {
 	return m.SendMessage(MessageQuery{
 		Recipient: Recipient{
 			ID: recipient,

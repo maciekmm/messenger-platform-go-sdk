@@ -10,7 +10,7 @@ A Go SDK for the [Facebook Messenger Platform](https://developers.facebook.com/d
 ## Installation
 
 ```bash
-go get gopkg.in/maciekmm/messenger-platform-go-sdk.v1
+go get gopkg.in/maciekmm/messenger-platform-go-sdk.v2
 ```
 
 ## Usage
