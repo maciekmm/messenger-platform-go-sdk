@@ -16,7 +16,7 @@ type Message struct {
 // Recipient describes the person who will receive the message
 // Either ID or PhoneNumber has to be set
 type Recipient struct {
-	ID          int64  `json:"id,omitempty"`
+	ID          int64  `json:"id,string,omitempty"`
 	PhoneNumber string `json:"phone_number,omitempty"`
 }
 
