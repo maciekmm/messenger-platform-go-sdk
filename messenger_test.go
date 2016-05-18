@@ -85,7 +85,7 @@ func TestHandler(t *testing.T) {
 
 		mess.AppSecret = ""
 		// Invalid request
-		response = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"1751036168465324","time":1460923697656,"messaging":[{"sender":{"id":"982337261802701751036168465324"},"timestamp":1460923697635,"message":{"mid":"mid.1460923697625:5c96e8279b55505308","seq":614,"text":"Test \u00e4\u00eb\u00ef"}}]}]}`)
+		response = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"1751036168465324","time":1460923697656,"messaging":[{"sender":{"id":"982337261802701751036168465324"},"timestamp":1460923697635,"message":{"mid":"mid.1460923697625:5c96e8279b55505308","seq":614,"text":"Test \u00e4\u00eb\u00e`)
 		if response.StatusCode != http.StatusBadRequest {
 			t.Errorf("Invalid status code, expected %d, got: %d", http.StatusBadRequest, response.StatusCode)
 		}

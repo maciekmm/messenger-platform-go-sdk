@@ -24,7 +24,7 @@ func TestSendMessageMarshalling(t *testing.T) {
 
 	setClient(200, body)
 
-	profile, err := messenger.SendSimpleMessage(111, "abba")
+	profile, err := messenger.SendSimpleMessage("111", "abba")
 	if err != nil {
 		t.Error(err)
 	}
@@ -43,7 +43,7 @@ func TestSendMessageMarshalling(t *testing.T) {
 	}
 
 	setClient(500, body)
-	profile, err = messenger.SendSimpleMessage(111, "abba")
+	profile, err = messenger.SendSimpleMessage("111", "abba")
 	if !strings.HasSuffix(err.Error(), mockError.Error.Message) {
 		t.Error("Invalid error message returned.")
 	}
