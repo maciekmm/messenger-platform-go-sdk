@@ -1,13 +1,17 @@
 package messenger
 
+import (
+	"encoding/json"
+)
+
 type rawEvent struct {
 	Object  string          `json:"object"`
 	Entries []*MessageEvent `json:"entry"`
 }
 
 type Event struct {
-	ID   string `json:"id"`
-	Time int64  `json:"time"`
+	ID   json.Number `json:"id"`
+	Time int64       `json:"time"`
 }
 
 type MessageOpts struct {
