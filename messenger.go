@@ -73,7 +73,7 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	event := &rawEvent{}
+	event := &upstreamEvent{}
 	err = json.Unmarshal(read, event)
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)

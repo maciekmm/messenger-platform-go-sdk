@@ -1,6 +1,8 @@
 package messenger
 
-type rawEvent struct {
+import "encoding/json"
+
+type upstreamEvent struct {
 	Object  string          `json:"object"`
 	Entries []*MessageEvent `json:"entry"`
 }
@@ -8,6 +10,21 @@ type rawEvent struct {
 type Event struct {
 	ID   string `json:"id"`
 	Time int64  `json:"time"`
+}
+
+type rawEvent struct {
+	ID   json.Number `json:"id"`
+	Time int64       `json:"time"`
+}
+
+func (e *Event) UnmarshalJSON(b []byte) error {
+	re := &rawEvent{}
+	if err := json.Unmarshal(b, re); err != nil {
+		return err
+	}
+	e.ID = re.ID.String()
+	e.Time = re.Time
+	return nil
 }
 
 type MessageOpts struct {
