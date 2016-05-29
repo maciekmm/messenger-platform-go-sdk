@@ -20,7 +20,7 @@ The main package has been named `messenger` for convenience.
 Your first step is to create `Messenger` instance.
 
 ```go
-import "gopkg.in/maciekmm/messenger-platform-go-sdk.v1"
+import "gopkg.in/maciekmm/messenger-platform-go-sdk.v2"
 
 //...
 

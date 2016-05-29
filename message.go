@@ -33,9 +33,9 @@ const (
 )
 
 type MessageQuery struct {
-	Recipient        Recipient `json:"recipient"`
-	Message          Message   `json:"message"`
-	NotificationType `json:"notification_type,omitempty"`
+	Recipient        Recipient        `json:"recipient"`
+	Message          Message          `json:"message"`
+	NotificationType NotificationType `json:"notification_type,omitempty"`
 }
 
 type MessageResponse struct {
