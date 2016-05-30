@@ -7,20 +7,9 @@ type upstreamEvent struct {
 	Entries []*MessageEvent `json:"entry"`
 }
 
-type FBString string
-
 type Event struct {
-	ID   FBString `json:"id"`
-	Time int64    `json:"time"`
-}
-
-func (sn *FBString) UnmarshalJSON(b []byte) error {
-	num := new(json.Number)
-	if err := json.Unmarshal(b, num); err != nil {
-		return err
-	}
-	*sn = FBString(num.String())
-	return nil
+	ID   json.Number `json:"id"`
+	Time int64       `json:"time"`
 }
 
 type MessageOpts struct {
