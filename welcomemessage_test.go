@@ -23,7 +23,7 @@ func TestSetWelcomeMessage(t *testing.T) {
 
 	setClient(200, body)
 
-	err = messenger.SetWelcomeMessage(&Message{
+	err = messenger.SetWelcomeMessage(&SendMessage{
 		Text: "hello!",
 	})
 	if err != nil {
@@ -40,7 +40,7 @@ func TestSetWelcomeMessage(t *testing.T) {
 	}
 	setClient(200, body)
 
-	err = messenger.SetWelcomeMessage(&Message{})
+	err = messenger.SetWelcomeMessage(&SendMessage{})
 	if err == nil {
 		t.Error("Error should have been thrown!")
 	}
