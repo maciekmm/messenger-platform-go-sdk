@@ -9,7 +9,7 @@ import (
 
 func init() {
 	handler := func(event messenger.Event, opts messenger.MessageOpts, msg messenger.ReceivedMessage) {
-		resp, err := mess.SendMessage(messenger.MessageQuery{Recipient: messenger.Recipient{ID: opts.Sender.ID}, Message: messenger.Message{
+		resp, err := mess.SendMessage(messenger.MessageQuery{Recipient: messenger.Recipient{ID: opts.Sender.ID}, Message: messenger.SendMessage{
 			Attachment: &messenger.Attachment{
 				Type: messenger.AttachmentTypeTemplate,
 				Payload: &template.Payload{
