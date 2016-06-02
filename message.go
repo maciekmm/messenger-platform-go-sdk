@@ -13,11 +13,6 @@ type SendMessage struct {
 	Attachment *Attachment `json:"attachment,omitempty"`
 }
 
-type ReceiveMessage struct {
-	Text        string        `json:"text,omitempty"`
-	Attachments []*Attachment `json:"attachments,omitempty"`
-}
-
 // Recipient describes the person who will receive the message
 // Either ID or PhoneNumber has to be set
 type Recipient struct {
