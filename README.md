@@ -10,7 +10,7 @@ A Go SDK for the [Facebook Messenger Platform](https://developers.facebook.com/d
 ## Installation
 
 ```bash
-go get gopkg.in/maciekmm/messenger-platform-go-sdk.v2
+go get gopkg.in/maciekmm/messenger-platform-go-sdk.v3
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ The main package has been named `messenger` for convenience.
 Your first step is to create `Messenger` instance.
 
 ```go
-import "gopkg.in/maciekmm/messenger-platform-go-sdk.v2"
+import "gopkg.in/maciekmm/messenger-platform-go-sdk.v3"
 
 //...
 
@@ -77,9 +77,12 @@ func main() {
 }
 
 func MessageReceived(event messenger.Event, opts messenger.MessageOpts, msg messenger.ReceivedMessage) {
-	resp, err := mess.SendMessage(messenger.MessageQuery{Recipient: messenger.Recipient{ID: opts.Sender.ID}, Message: messenger.Message{
-		Text: msg.Text,
-	}})
+	profile, err := mess.GetProfile(opts.Sender.ID)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := mess.SendSimpleMessage(opts.Sender.ID, fmt.Sprintf("Hello, %s %s, %s", profile.FirstName, profile.LastName, msg.Text))
 	if err != nil {
 		fmt.Println(err)
 	}
