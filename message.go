@@ -9,8 +9,9 @@ import (
 )
 
 type Message struct {
-	Text       string      `json:"text,omiempty"`
-	Attachment *Attachment `json:"attachment,omitempty"`
+	Text        string        `json:"text,omiempty"`
+	Attachment  *Attachment   `json:"attachment,omitempty"`
+	Attachments []*Attachment `json:"attachments,omitempty"`
 }
 
 // Recipient describes the person who will receive the message
