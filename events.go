@@ -34,7 +34,7 @@ type MessageEvent struct {
 }
 
 type ReceivedMessage struct {
-	Message
+	ReceiveMessage
 	ID  string `json:"mid"`
 	Seq int    `json:"seq"`
 }
