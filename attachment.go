@@ -4,9 +4,9 @@ type AttachmentType string
 
 const (
 	AttachmentTypeTemplate AttachmentType = "template"
-	AttachmentTypeImage    AttachmentType = "image"
-	AttachmentTypeVideo    AttachmentType = "video"
-	AttachmentTypeAudio    AttachmentType = "audio"
+	AttachmentTypeImage AttachmentType = "image"
+	AttachmentTypeVideo AttachmentType = "video"
+	AttachmentTypeAudio AttachmentType = "audio"
 	AttachmentTypeLocation AttachmentType = "location"
 )
 
@@ -34,8 +34,10 @@ type Resource struct {
 }
 
 type Location struct {
-	Coordinates struct {
-		Latitude  float64 `json:"lat"`
-		Longitude float64 `json:"long"`
-	} `json:"coordinates"`
+	Coordinates Coordinates `json:"coordinates"`
+}
+
+type Coordinates struct {
+	Latitude  float64 `json:"lat"`
+	Longitude float64 `json:"long"`
 }
