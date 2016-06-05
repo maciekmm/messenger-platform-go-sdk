@@ -11,3 +11,7 @@ type ButtonTemplate struct {
 func (ButtonTemplate) Type() TemplateType {
 	return TemplateTypeButton
 }
+
+func (ButtonTemplate) SupportsButtons() bool {
+	return true
+}

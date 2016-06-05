@@ -15,8 +15,12 @@ type ReceiptTemplate struct {
 	Adjustments   []Adjustment     `json:"adjustments,omitempty"`
 }
 
-func (*ReceiptTemplate) Type() TemplateType {
+func (ReceiptTemplate) Type() TemplateType {
 	return TemplateTypeReceipt
+}
+
+func (ReceiptTemplate) SupportsButtons() bool {
+	return false
 }
 
 type ReceiptElement struct {

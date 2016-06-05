@@ -9,6 +9,7 @@ type TemplateType string
 
 type Template interface {
 	Type() TemplateType
+	SupportsButtons() bool
 }
 
 type Payload struct {

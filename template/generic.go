@@ -15,3 +15,7 @@ type GenericTemplate struct {
 func (GenericTemplate) Type() TemplateType {
 	return TemplateTypeGeneric
 }
+
+func (GenericTemplate) SupportsButtons() bool {
+	return true
+}
