@@ -2,6 +2,7 @@ package messenger
 
 import (
 	"errors"
+
 	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
 
@@ -43,7 +44,7 @@ func (mq *MessageQuery) RecipientID(recipientID string) error {
 	return nil
 }
 
-func (mq *MessageQuery) RecipientPhoneNumber(phoneNumber string, button template.Button) error {
+func (mq *MessageQuery) RecipientPhoneNumber(phoneNumber string) error {
 	if mq.Recipient.ID != "" {
 		return errors.New("Only one user identification (phone or id) can be specified.")
 	}
@@ -63,7 +64,7 @@ func (mq *MessageQuery) Text(text string) error {
 	if mq.Message.Attachment != nil && mq.Message.Attachment.Type == AttachmentTypeTemplate {
 		return errors.New("Can't set both text and template.")
 	}
-	mq.Message.Text = text;
+	mq.Message.Text = text
 	return nil
 }
 
@@ -75,7 +76,7 @@ func (mq *MessageQuery) resource(typ AttachmentType, url string) error {
 		return errors.New("Attachment already specified.")
 	}
 	mq.Message.Attachment.Type = typ
-	mq.Message.Attachment.Payload = &Resource{URL:url}
+	mq.Message.Attachment.Payload = &Resource{URL: url}
 	return nil
 }
 
@@ -106,7 +107,7 @@ func (mq *MessageQuery) Template(tpl template.Template) error {
 
 	payload := mq.Message.Attachment.Payload.(*template.Payload)
 
-	for _,v := range payload.Elements {
+	for _, v := range payload.Elements {
 		if v.Type() != tpl.Type() {
 			return errors.New("All templates have to have thesame type.")
 		}
@@ -115,4 +116,3 @@ func (mq *MessageQuery) Template(tpl template.Template) error {
 	payload.Elements = append(payload.Elements, tpl)
 	return nil
 }
-
