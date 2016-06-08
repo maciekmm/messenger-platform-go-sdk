@@ -8,40 +8,6 @@ import (
 	"net/http"
 )
 
-<<<<<<< HEAD
-type Message struct {
-	Text        string        `json:"text,omitempty"`
-	Attachment  *Attachment   `json:"attachment,omitempty"`
-	Attachments []*Attachment `json:"attachments,omitempty"`
-}
-
-// Recipient describes the person who will receive the message
-// Either ID or PhoneNumber has to be set
-type Recipient struct {
-	ID          string `json:"id,omitempty"`
-	PhoneNumber string `json:"phone_number,omitempty"`
-}
-
-// NotificationType describes the behavior phone will execute after receiving the message
-type NotificationType string
-
-const (
-	// NotificationTypeRegular will emit a sound/vibration and a phone notification
-	NotificationTypeRegular NotificationType = "REGULAR"
-	// NotificationTypeSilentPush will just emit a phone notification
-	NotificationTypeSilentPush NotificationType = "SILENT_PUSH"
-	// NotificationTypeNoPush will not emit sound/vibration nor a phone notification
-	NotificationTypeNoPush NotificationType = "NO_PUSH"
-)
-
-type MessageQuery struct {
-	Recipient        Recipient        `json:"recipient"`
-	Message          Message          `json:"message"`
-	NotificationType NotificationType `json:"notification_type,omitempty"`
-}
-
-=======
->>>>>>> 075773ba24d8af413131a5ce0c527fe94bb10ce7
 type MessageResponse struct {
 	RecipientID string `json:"recipient_id"`
 	MessageID   string `json:"message_id"`
