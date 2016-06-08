@@ -34,9 +34,10 @@ type MessageEvent struct {
 }
 
 type ReceivedMessage struct {
-	Message
-	ID  string `json:"mid"`
-	Seq int    `json:"seq"`
+	ID          string        `json:"mid"`
+	Text        string        `json:"text,omitempty"`
+	Attachments []*Attachment `json:"attachments,omitempty"`
+	Seq         int           `json:"seq"`
 }
 
 type Delivery struct {

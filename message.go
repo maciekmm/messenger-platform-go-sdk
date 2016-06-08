@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+<<<<<<< HEAD
 type Message struct {
 	Text        string        `json:"text,omitempty"`
 	Attachment  *Attachment   `json:"attachment,omitempty"`
@@ -39,6 +40,8 @@ type MessageQuery struct {
 	NotificationType NotificationType `json:"notification_type,omitempty"`
 }
 
+=======
+>>>>>>> 075773ba24d8af413131a5ce0c527fe94bb10ce7
 type MessageResponse struct {
 	RecipientID string `json:"recipient_id"`
 	MessageID   string `json:"message_id"`
@@ -75,7 +78,7 @@ func (m *Messenger) SendSimpleMessage(recipient string, message string) (*Messag
 		Recipient: Recipient{
 			ID: recipient,
 		},
-		Message: Message{
+		Message: SendMessage{
 			Text: message,
 		},
 	})

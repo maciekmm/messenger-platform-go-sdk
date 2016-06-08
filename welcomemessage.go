@@ -20,7 +20,7 @@ var welcomeMessage = ctaBase{
 
 type cta struct {
 	ctaBase
-	CallToActions []*Message `json:"call_to_actions"`
+	CallToActions []*SendMessage `json:"call_to_actions"`
 }
 
 type result struct {
@@ -28,10 +28,10 @@ type result struct {
 }
 
 // SetWelcomeMessage sets the message that is sent first. If message is nil or empty the welcome message is not sent.
-func (m *Messenger) SetWelcomeMessage(message *Message) error {
+func (m *Messenger) SetWelcomeMessage(message *SendMessage) error {
 	cta := &cta{
 		ctaBase:       welcomeMessage,
-		CallToActions: []*Message{message},
+		CallToActions: []*SendMessage{message},
 	}
 	if m.PageID == "" {
 		return errors.New("PageID is empty")
