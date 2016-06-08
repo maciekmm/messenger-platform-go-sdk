@@ -7,4 +7,7 @@ func TestButtonType(t *testing.T) {
 	if template.Type() != TemplateTypeButton {
 		t.Error("Button template returned invalid type")
 	}
+	if !template.SupportsButtons() {
+		t.Error("Button template is marked as not supporting buttons.")
+	}
 }

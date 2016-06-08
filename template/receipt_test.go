@@ -7,4 +7,7 @@ func TestReceiptType(t *testing.T) {
 	if template.Type() != TemplateTypeReceipt {
 		t.Error("Receipt template returned invalid type")
 	}
+	if template.SupportsButtons() {
+		t.Error("Button template is marked as supporting buttons.")
+	}
 }
