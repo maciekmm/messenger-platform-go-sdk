@@ -18,9 +18,13 @@ var welcomeMessage = ctaBase{
 	ThreadState: "new_thread",
 }
 
+type ctaMessage struct {
+	Message *SendMessage `json:"message"`
+}
+
 type cta struct {
 	ctaBase
-	CallToActions []*SendMessage `json:"call_to_actions"`
+	CallToActions []ctaMessage `json:"call_to_actions"`
 }
 
 type result struct {
@@ -31,7 +35,7 @@ type result struct {
 func (m *Messenger) SetWelcomeMessage(message *SendMessage) error {
 	cta := &cta{
 		ctaBase:       welcomeMessage,
-		CallToActions: []*SendMessage{message},
+		CallToActions: []ctaMessage{ctaMessage{Message: message}},
 	}
 	if m.PageID == "" {
 		return errors.New("PageID is empty")
@@ -46,7 +50,7 @@ func (m *Messenger) SetWelcomeMessage(message *SendMessage) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return errors.New("Invalid status code")
+		return fmt.Errorf("Invalid status code %d", resp.StatusCode)
 	}
 	decoder := json.NewDecoder(resp.Body)
 	result := &result{}
