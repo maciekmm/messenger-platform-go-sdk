@@ -14,7 +14,7 @@ type ctaBase struct {
 }
 
 var welcomeMessage = ctaBase{
-	SettingType: "setting_type",
+	SettingType: "call_to_actions",
 	ThreadState: "new_thread",
 }
 

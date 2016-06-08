@@ -9,7 +9,7 @@ import (
 )
 
 type Message struct {
-	Text        string        `json:"text,omiempty"`
+	Text        string        `json:"text,omitempty"`
 	Attachment  *Attachment   `json:"attachment,omitempty"`
 	Attachments []*Attachment `json:"attachments,omitempty"`
 }
