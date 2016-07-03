@@ -7,8 +7,15 @@ import (
 )
 
 type SendMessage struct {
-	Text       string      `json:"text,omitempty"`
-	Attachment *Attachment `json:"attachment,omitempty"`
+	Text         string       `json:"text,omitempty"`
+	Attachment   *Attachment  `json:"attachment,omitempty"`
+	QuickReplies []QuickReply `json:"quick_replies,omitempty"`
+}
+
+type QuickReply struct {
+	ContentType string `json:"content_type"`
+	Title       string `json:"title,omitempty"`
+	Payload     string `json:"payload"`
 }
 
 // Recipient describes the person who will receive the message
@@ -114,5 +121,19 @@ func (mq *MessageQuery) Template(tpl template.Template) error {
 	}
 
 	payload.Elements = append(payload.Elements, tpl)
+	return nil
+}
+
+// Documentation: https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies#quick_reply
+func (mq *MessageQuery) QuickReply(title string, payload string) error {
+	//title has a 20 character limit
+	if len(title) > 20 {
+		return errors.New("Title is too long, it has a 20 character limit.")
+	}
+	//payload has a 1000 character limit
+	if len(payload) > 1000 {
+		return errors.New("Payload is too long, it has a 1000 character limit.")
+	}
+	mq.Message.QuickReplies = append(mq.Message.QuickReplies, QuickReply{Title: title, Payload: payload})
 	return nil
 }

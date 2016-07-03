@@ -1,10 +1,39 @@
 package messenger
 
 import (
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
+
+//seed the rand
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randString(leng uint) string {
+	b := make([]rune, leng)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
+func TestRandString(t *testing.T) {
+	if len(randString(0)) != 0 {
+		t.Error("Invalid length of generated string")
+	}
+	if len(randString(20)) != 20 {
+		t.Error("Invalid length of generated string")
+	}
+	if len(randString(1000)) != 1000 {
+		t.Error("Invalid length of generated string")
+	}
+}
 
 func TestRecipientID(t *testing.T) {
 	mq := MessageQuery{}
@@ -104,5 +133,22 @@ func TestTemplate(t *testing.T) {
 	err = mq.Template(temp)
 	if err == nil {
 		t.Error("Should not allow for adding template if another attachment is specified.")
+	}
+}
+
+func TestQuickReply(t *testing.T) {
+	mq := MessageQuery{}
+	err := mq.QuickReply("Valid Title", "Valid Payload")
+	if err != nil {
+		t.Error("Cannot add quick reply", err)
+	}
+	//20 characters edge case
+	err = mq.QuickReply(randString(20), randString(1000))
+	if err != nil {
+		t.Error("Cannot add quick reply", err)
+	}
+	err = mq.QuickReply(randString(100), randString(2000))
+	if err == nil {
+		t.Error("Can add an invalid quick reply")
 	}
 }
