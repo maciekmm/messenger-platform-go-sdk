@@ -10,6 +10,7 @@ type SendMessage struct {
 	Text         string       `json:"text,omitempty"`
 	Attachment   *Attachment  `json:"attachment,omitempty"`
 	QuickReplies []QuickReply `json:"quick_replies,omitempty"`
+	Metadata     string       `json:"metadata,omitempty"`
 }
 
 type QuickReply struct {
@@ -135,5 +136,13 @@ func (mq *MessageQuery) QuickReply(title string, payload string) error {
 		return errors.New("Payload is too long, it has a 1000 character limit.")
 	}
 	mq.Message.QuickReplies = append(mq.Message.QuickReplies, QuickReply{Title: title, Payload: payload})
+	return nil
+}
+
+func (mq *MessageQuery) Metadata(metadata string) error {
+	if len(metadata) > 1000 {
+		return errors.New("Metadata is too long, it has a 1000 character limit.")
+	}
+	mq.Message.Metadata = metadata
 	return nil
 }

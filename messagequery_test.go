@@ -152,3 +152,20 @@ func TestQuickReply(t *testing.T) {
 		t.Error("Can add an invalid quick reply")
 	}
 }
+
+func TestMetadata(t *testing.T) {
+	mq := MessageQuery{}
+	err := mq.Metadata("Correct metadata.")
+	if err != nil {
+		t.Error("Cannot add metadata", err)
+	}
+	//edge case
+	err = mq.Metadata(randString(1000))
+	if err != nil {
+		t.Error("Cannot add metadata", err)
+	}
+	err = mq.Metadata(randString(2000))
+	if err == nil {
+		t.Error("Can add an invalid metadata")
+	}
+}

@@ -27,17 +27,22 @@ type PostbackHandler func(Event, MessageOpts, Postback)
 // AuthenticationHandler is called when a new user joins/authenticates
 type AuthenticationHandler func(Event, MessageOpts, *Optin)
 
+// MessageReadHandler is called when a message has been read by recipient
+type MessageReadHandler func(Event, MessageOpts, Read)
+
 // Messenger is the main service which handles all callbacks from facebook
 // Events are delivered to handlers if they are specified
 type Messenger struct {
-	VerifyToken      string
-	AppSecret        string
-	AccessToken      string
-	PageID           string
+	VerifyToken string
+	AppSecret   string
+	AccessToken string
+	PageID      string
+
 	MessageReceived  MessageReceivedHandler
 	MessageDelivered MessageDeliveredHandler
 	Postback         PostbackHandler
 	Authentication   AuthenticationHandler
+	MessageRead      MessageReadHandler
 }
 
 // Handler is the main HTTP handler for the Messenger service.
@@ -93,6 +98,10 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 			} else if message.Postback != nil {
 				if m.Postback != nil {
 					go m.Postback(entry.Event, message.MessageOpts, *message.Postback)
+				}
+			} else if message.Read != nil {
+				if m.MessageRead != nil {
+					go m.MessageRead(entry.Event, message.MessageOpts, *message.Read)
 				}
 			} else if m.Authentication != nil {
 				go m.Authentication(entry.Event, message.MessageOpts, message.Optin)

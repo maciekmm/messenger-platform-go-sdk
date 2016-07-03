@@ -30,6 +30,7 @@ type MessageEvent struct {
 		Delivery *Delivery        `json:"delivery,omitempty"`
 		Postback *Postback        `json:"postback,omitempty"`
 		Optin    *Optin           `json:"optin,empty"`
+		Read     *Read            `json:"read,omitempty"`
 	} `json:"messaging"`
 }
 
@@ -57,4 +58,9 @@ type Postback struct {
 
 type Optin struct {
 	Ref string `json:"ref"`
+}
+
+type Read struct {
+	Watermark int64 `json:"watermark"`
+	Seq       int   `json:"seq"`
 }
