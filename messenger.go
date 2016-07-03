@@ -30,6 +30,9 @@ type AuthenticationHandler func(Event, MessageOpts, *Optin)
 // MessageReadHandler is called when a message has been read by recipient
 type MessageReadHandler func(Event, MessageOpts, Read)
 
+// MessageEchoHandler is called when a message is sent by your page
+type MessageEchoHandler func(Event, MessageOpts, MessageEcho)
+
 // Messenger is the main service which handles all callbacks from facebook
 // Events are delivered to handlers if they are specified
 type Messenger struct {
@@ -43,6 +46,7 @@ type Messenger struct {
 	Postback         PostbackHandler
 	Authentication   AuthenticationHandler
 	MessageRead      MessageReadHandler
+	MessageEcho      MessageEchoHandler
 }
 
 // Handler is the main HTTP handler for the Messenger service.
@@ -91,9 +95,13 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 				if m.MessageDelivered != nil {
 					go m.MessageDelivered(entry.Event, message.MessageOpts, *message.Delivery)
 				}
+			} else if message.Message != nil && message.Message.IsEcho {
+				if m.MessageEcho != nil {
+					go m.MessageEcho(entry.Event, message.MessageOpts, *message.Message)
+				}
 			} else if message.Message != nil {
 				if m.MessageReceived != nil {
-					go m.MessageReceived(entry.Event, message.MessageOpts, *message.Message)
+					go m.MessageReceived(entry.Event, message.MessageOpts, message.Message.ReceivedMessage)
 				}
 			} else if message.Postback != nil {
 				if m.Postback != nil {

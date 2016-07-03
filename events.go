@@ -26,11 +26,11 @@ type MessageEvent struct {
 	Event
 	Messaging []struct {
 		MessageOpts
-		Message  *ReceivedMessage `json:"message,omitempty"`
-		Delivery *Delivery        `json:"delivery,omitempty"`
-		Postback *Postback        `json:"postback,omitempty"`
-		Optin    *Optin           `json:"optin,empty"`
-		Read     *Read            `json:"read,omitempty"`
+		Message  *MessageEcho `json:"message,omitempty"`
+		Delivery *Delivery    `json:"delivery,omitempty"`
+		Postback *Postback    `json:"postback,omitempty"`
+		Optin    *Optin       `json:"optin,empty"`
+		Read     *Read        `json:"read,omitempty"`
 	} `json:"messaging"`
 }
 
@@ -40,6 +40,8 @@ type ReceivedMessage struct {
 	Attachments []*Attachment      `json:"attachments,omitempty"`
 	Seq         int                `json:"seq"`
 	QuickReply  *QuickReplyPayload `json:"quick_reply,omitempty"`
+	IsEcho      bool               `json:"is_echo,omitempty"`
+	Metadata    *string            `json:"metadata,omitempty"`
 }
 
 type QuickReplyPayload struct {
@@ -63,4 +65,9 @@ type Optin struct {
 type Read struct {
 	Watermark int64 `json:"watermark"`
 	Seq       int   `json:"seq"`
+}
+
+type MessageEcho struct {
+	ReceivedMessage
+	AppID string `json:"app_id,omitempty"`
 }
