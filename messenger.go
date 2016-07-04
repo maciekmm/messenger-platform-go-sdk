@@ -74,6 +74,7 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	defer req.Body.Close()
 	//Message integrity check
 	if m.AppSecret != "" {
 		if len(req.Header.Get("x-hub-signature")) < 6 || !checkIntegrity(m.AppSecret, read, req.Header.Get("x-hub-signature")[5:]) {
