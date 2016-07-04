@@ -4,8 +4,9 @@ package template
 type ButtonType string
 
 const (
-	ButtonTypeWebURL   ButtonType = "web_url"
-	ButtonTypePostback ButtonType = "postback"
+	ButtonTypeWebURL      ButtonType = "web_url"
+	ButtonTypePostback    ButtonType = "postback"
+	ButtonTypePhoneNumber ButtonType = "phone_number"
 )
 
 type Button struct {
@@ -24,11 +25,20 @@ func NewWebURLButton(title string, url string) Button {
 	}
 }
 
-// NewPostbackButton creates a button used in ButtonTemplate that upon clicking sends
+// NewPostbackButton creates a button used in ButtonTemplate that upon clicking sends a payload request to the server
 func NewPostbackButton(title string, payload string) Button {
 	return Button{
 		Type:    ButtonTypePostback,
 		Title:   title,
 		Payload: payload,
+	}
+}
+
+// NewPhoneNumberButton creates a button used in ButtonTemplate that upon clicking opens a native dialer
+func NewPhoneNumberButton(title string, phone string) Button {
+	return Button{
+		Type:    ButtonTypePhoneNumber,
+		Title:   title,
+		Payload: phone,
 	}
 }

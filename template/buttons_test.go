@@ -27,3 +27,16 @@ func TestPostbackButtonCreation(t *testing.T) {
 		t.Error("Postback button's url is not correct")
 	}
 }
+
+func TestPhoneNumberButtonCreation(t *testing.T) {
+	button := NewPhoneNumberButton("title", "+1123123123")
+	if button.URL != "" {
+		t.Error("PhoneNumber button's payload is not empty")
+	}
+	if button.Title != "title" {
+		t.Error("PhoneNumber button's title is not correct")
+	}
+	if button.Payload != "postback" {
+		t.Error("PhoneNumber button's url is not correct")
+	}
+}
