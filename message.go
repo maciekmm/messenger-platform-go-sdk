@@ -3,7 +3,6 @@ package messenger
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -18,8 +17,8 @@ type rawMessage struct {
 	MessageQuery
 }
 
-func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
-	byt, err := json.Marshal(mq)
+func (m *Messenger) sendCustomMessage(i interface{}) ([]byte, error) {
+	byt, err := json.Marshal(i)
 	if err != nil {
 		return nil, err
 	}
@@ -32,10 +31,18 @@ func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
 	if resp.StatusCode != http.StatusOK {
 		er := new(rawError)
 		json.Unmarshal(read, er)
-		return nil, errors.New("Error occured: " + er.Error.Message)
+		return nil, er.Error
+	}
+	return read, err
+}
+
+func (m *Messenger) SendMessage(mq MessageQuery) (*MessageResponse, error) {
+	b, err := m.sendCustomMessage(mq)
+	if err != nil {
+		return nil, err
 	}
 	response := &MessageResponse{}
-	err = json.Unmarshal(read, response)
+	err = json.Unmarshal(b, response)
 	return response, err
 }
 
