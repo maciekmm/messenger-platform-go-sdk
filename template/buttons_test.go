@@ -36,7 +36,7 @@ func TestPhoneNumberButtonCreation(t *testing.T) {
 	if button.Title != "title" {
 		t.Error("PhoneNumber button's title is not correct")
 	}
-	if button.Payload != "postback" {
-		t.Error("PhoneNumber button's url is not correct")
+	if button.Payload != "+1123123123" {
+		t.Error("PhoneNumber button's payload is not correct")
 	}
 }
