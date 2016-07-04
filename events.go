@@ -69,5 +69,5 @@ type Read struct {
 
 type MessageEcho struct {
 	ReceivedMessage
-	AppID string `json:"app_id,omitempty"`
+	AppID int64 `json:"app_id,omitempty"`
 }
