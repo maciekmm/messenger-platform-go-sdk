@@ -135,7 +135,11 @@ func (mq *MessageQuery) QuickReply(title string, payload string) error {
 	if len(payload) > 1000 {
 		return errors.New("Payload is too long, it has a 1000 character limit.")
 	}
-	mq.Message.QuickReplies = append(mq.Message.QuickReplies, QuickReply{Title: title, Payload: payload})
+	mq.Message.QuickReplies = append(mq.Message.QuickReplies, QuickReply{
+		ContentType: "text",
+		Title:       title,
+		Payload:     payload,
+	})
 	return nil
 }
 
