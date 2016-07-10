@@ -149,7 +149,6 @@ func (m *Messenger) SetPersistentMenu(buttons []template.Button) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(result)
 	if result.Result != "Successfully added structured menu CTAs" {
 		return fmt.Errorf("Error occured while setting persistent menu, invalid result: %s", result.Result)
 	}
