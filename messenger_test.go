@@ -5,7 +5,9 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"strings"
+	"sync"
 	"testing"
+	"time"
 
 	"github.com/drewolson/testflight"
 )
@@ -89,6 +91,48 @@ func TestHandler(t *testing.T) {
 		if response.StatusCode != http.StatusBadRequest {
 			t.Errorf("Invalid status code, expected %d, got: %d", http.StatusBadRequest, response.StatusCode)
 		}
+		wg := sync.WaitGroup{}
+		mess.MessageReceived = func(Event, MessageOpts, ReceivedMessage) {
+			wg.Done()
+		}
+		mess.MessageDelivered = func(Event, MessageOpts, Delivery) {
+			wg.Done()
+		}
+		mess.Postback = func(Event, MessageOpts, Postback) {
+			wg.Done()
+		}
+		mess.Authentication = func(Event, MessageOpts, *Optin) {
+			wg.Done()
+		}
+		mess.MessageRead = func(Event, MessageOpts, Read) {
+			wg.Done()
+		}
+		mess.MessageEcho = func(Event, MessageOpts, MessageEcho) {
+			wg.Done()
+		}
 
+		wg.Add(5)
+		// received
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152703635,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152703534,"message":{"mid":"mid.1468152703527:6600c706f15a292027","seq":414,"text":"test"}}]}]}`)
+		// echo
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152706999,"messaging":[{"sender":{"id":"510249619162304"},"recipient":{"id":"1066835436691078"},"timestamp":1468152706921,"message":{"is_echo":true,"app_id":1708188056130407,"mid":"mid.1468152706286:e7982eb7618034a075","seq":415,"attachments":[{"title":"abc","url":null,"type":"template","payload":{"template_type":"generic","sharable":false,"elements":[{"title":"abc","buttons":[{"type":"postback","url":null,"title":"abecad\u0142o","payload":"test"}]}]}}]}}]}]}`)
+		// delivery
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152707422,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":0,"delivery":{"mids":["mid.1468152706286:e7982eb7618034a075"],"watermark":1468152706921,"seq":416}}]}]}`)
+		// read
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152897133,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152897070,"read":{"watermark":1468152706921,"seq":417}}]}]}`)
+		// postback
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152897212,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152897212,"postback":{"payload":"test"}}]}]}`)
+
+		c := make(chan bool)
+		go func() {
+			wg.Wait()
+			c <- true
+		}()
+
+		select {
+		case <-c:
+		case <-time.After(time.Second * 1):
+			t.Error("Some handlers were not executed")
+		}
 	})
 }

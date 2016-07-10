@@ -151,6 +151,10 @@ func TestQuickReply(t *testing.T) {
 	if err == nil {
 		t.Error("Can add an invalid quick reply")
 	}
+	err = mq.QuickReply(randString(20), randString(2000))
+	if err == nil {
+		t.Error("Can add an invalid quick reply")
+	}
 	for _, qr := range mq.Message.QuickReplies {
 		if qr.ContentType != "text" {
 			t.Error("QuickReply content type must be 'text'")
