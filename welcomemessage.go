@@ -27,10 +27,6 @@ type cta struct {
 	CallToActions []ctaMessage `json:"call_to_actions"`
 }
 
-type result struct {
-	Result string `json:"result"`
-}
-
 // SetWelcomeMessage sets the message that is sent first. If message is nil or empty the welcome message is not sent.
 func (m *Messenger) SetWelcomeMessage(message *SendMessage) error {
 	cta := &cta{
