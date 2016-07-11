@@ -4,9 +4,11 @@ package template
 type ButtonType string
 
 const (
-	ButtonTypeWebURL      ButtonType = "web_url"
-	ButtonTypePostback    ButtonType = "postback"
-	ButtonTypePhoneNumber ButtonType = "phone_number"
+	ButtonTypeWebURL        ButtonType = "web_url"
+	ButtonTypePostback      ButtonType = "postback"
+	ButtonTypePhoneNumber   ButtonType = "phone_number"
+	ButtonTypeAccountLink   ButtonType = "account_link"
+	ButtonTypeAccountUnlink ButtonType = "account_unline"
 )
 
 type Button struct {
@@ -40,5 +42,22 @@ func NewPhoneNumberButton(title string, phone string) Button {
 		Type:    ButtonTypePhoneNumber,
 		Title:   title,
 		Payload: phone,
+	}
+}
+
+// NewAccountLinkButton creates a button used for account linking
+// https://developers.facebook.com/docs/messenger-platform/account-linking/authentication
+func NewAccountLinkButton(url string) Button {
+	return Button{
+		Type: ButtonTypeAccountLink,
+		URL:  url,
+	}
+}
+
+// NewAccountUnlinkButton creates a button used for account unlinking
+// https://developers.facebook.com/docs/messenger-platform/account-linking/authentication
+func NewAccountUnlinkButton() Button {
+	return Button{
+		Type: ButtonTypeAccountUnlink,
 	}
 }
