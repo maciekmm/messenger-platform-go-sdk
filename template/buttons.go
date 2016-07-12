@@ -8,7 +8,7 @@ const (
 	ButtonTypePostback      ButtonType = "postback"
 	ButtonTypePhoneNumber   ButtonType = "phone_number"
 	ButtonTypeAccountLink   ButtonType = "account_link"
-	ButtonTypeAccountUnlink ButtonType = "account_unline"
+	ButtonTypeAccountUnlink ButtonType = "account_unlink"
 )
 
 type Button struct {
