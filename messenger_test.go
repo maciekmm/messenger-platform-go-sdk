@@ -1,6 +1,7 @@
 package messenger
 
 import (
+	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -24,6 +25,21 @@ func setClient(code int, body []byte) *httptest.Server {
 		},
 	}
 	return server
+}
+
+//seed the rand
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randString(leng uint) string {
+	b := make([]rune, leng)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
 
 func TestCheckIntegrity(t *testing.T) {

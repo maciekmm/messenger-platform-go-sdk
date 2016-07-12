@@ -1,27 +1,10 @@
 package messenger
 
 import (
-	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
-
-//seed the rand
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
-
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-func randString(leng uint) string {
-	b := make([]rune, leng)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
-}
 
 func TestRandString(t *testing.T) {
 	if len(randString(0)) != 0 {
