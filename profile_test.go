@@ -48,3 +48,21 @@ func TestGetProfile(t *testing.T) {
 		t.Error("Invalid error parsing")
 	}
 }
+
+func TestGetPSID(t *testing.T) {
+	GraphAPI = "http://example.com"
+	messenger := &Messenger{}
+	setClient(200, []byte(`{"recipient":"userid", "id":"pageid"}`))
+	psid, err := messenger.GetPSID("token")
+	if err != nil {
+		t.Error(err)
+	}
+	if *psid != "userid" {
+		t.Error("Invalid userid")
+	}
+	setClient(400, []byte(""))
+	_, err = messenger.GetPSID("token")
+	if err == nil {
+		t.Error("Error shouldn't be empty.")
+	}
+}

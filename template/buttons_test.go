@@ -40,3 +40,29 @@ func TestPhoneNumberButtonCreation(t *testing.T) {
 		t.Error("PhoneNumber button's payload is not correct")
 	}
 }
+
+func TestAccountLinkButtonCreation(t *testing.T) {
+	button := NewAccountLinkButton("https://example.com/oauth/authorize")
+	if button.Title != "" {
+		t.Error("AccountLink button's title is not empty")
+	}
+	if button.Payload != "" {
+		t.Error("AccountLink button's payload is not empty")
+	}
+	if button.URL != "https://example.com/oauth/authorize" {
+		t.Error("AccountLink button's url is incorrect")
+	}
+}
+
+func TestAccountUnlinkButtonCreation(t *testing.T) {
+	button := NewAccountUnlinkButton()
+	if button.Title != "" {
+		t.Error("AccountUnlink button's title is not empty")
+	}
+	if button.Payload != "" {
+		t.Error("AccountUnlink button's payload is not empty")
+	}
+	if button.URL != "" {
+		t.Error("AccountLink button's url is not empty")
+	}
+}

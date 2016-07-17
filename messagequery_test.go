@@ -1,27 +1,10 @@
 package messenger
 
 import (
-	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
-
-//seed the rand
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
-
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-func randString(leng uint) string {
-	b := make([]rune, leng)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
-}
 
 func TestRandString(t *testing.T) {
 	if len(randString(0)) != 0 {
@@ -148,6 +131,10 @@ func TestQuickReply(t *testing.T) {
 		t.Error("Cannot add quick reply", err)
 	}
 	err = mq.QuickReply(randString(100), randString(2000))
+	if err == nil {
+		t.Error("Can add an invalid quick reply")
+	}
+	err = mq.QuickReply(randString(20), randString(2000))
 	if err == nil {
 		t.Error("Can add an invalid quick reply")
 	}
