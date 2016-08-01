@@ -13,7 +13,7 @@ const (
 
 type Button struct {
 	Type    ButtonType `json:"type"`
-	Title   string     `json:"title"`
+	Title   string     `json:"title,omitempty"`
 	URL     string     `json:"url,omitempty"`
 	Payload string     `json:"payload,omitempty"`
 }
