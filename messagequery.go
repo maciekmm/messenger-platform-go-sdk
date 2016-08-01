@@ -66,9 +66,6 @@ func (mq *MessageQuery) Notification(notification NotificationType) *MessageQuer
 }
 
 func (mq *MessageQuery) Text(text string) error {
-	if mq.Message.Attachment == nil {
-		mq.Message.Attachment = &Attachment{}
-	}
 	if mq.Message.Attachment != nil && mq.Message.Attachment.Type == AttachmentTypeTemplate {
 		return errors.New("Can't set both text and template.")
 	}
