@@ -5,7 +5,6 @@ Messenger Platform Go SDK
 [![Coverage Status](https://coveralls.io/repos/github/maciekmm/messenger-platform-go-sdk/badge.svg?branch=master)](https://coveralls.io/github/maciekmm/messenger-platform-go-sdk?branch=master)
 
 A Go SDK for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform).
-**Note: Work in Progress, not suitable for production environment yet! Be careful!**
 
 ## Installation
 
