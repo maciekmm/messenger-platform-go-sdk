@@ -28,7 +28,7 @@ messenger := &messenger.Messenger {
 	VerifyToken: "VERIFY_TOKEN/optional",
 	AppSecret: "APP_SECRET/optional",
 	AccessToken: "PAGE_ACCESS_TOKEN",
-	PageID: "PAGE_ID/optional",
+	Debug: messenger.DebugAll, //All,Info,Warning
 }
 ```
 
@@ -36,7 +36,7 @@ messenger := &messenger.Messenger {
 * `VerifyToken` is the token needed for a verification process facebook performs. It's only required once. Optional.
 * `AppSecret` is the Application Secret token. It's used for message integrity check. Optional.
 * `AccessToken` is required to send messages. You can find this token in your app developer dashboard under `Messenger` tab.
-* `PageID` is required for setting welcome message. Optional.
+* `Debug` is used for setting debug mode type as described on https://developers.facebook.com/docs/graph-api/using-graph-api#debugging. Optional.
 
 The next step is to hook up the handler to your HTTP server. 
 

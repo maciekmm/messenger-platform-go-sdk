@@ -10,28 +10,35 @@ import (
 	"net/http"
 )
 
-var (
-	//GraphAPI specifies host used for API requests
-	GraphAPI = "https://graph.facebook.com"
+// GraphAPI specifies host used for API requests
+var GraphAPI = "https://graph.facebook.com"
+
+type (
+	// MessageReceivedHandler is called when a new message is received
+	MessageReceivedHandler func(Event, MessageOpts, ReceivedMessage)
+	// MessageDeliveredHandler is called when a message sent has been successfully delivered
+	MessageDeliveredHandler func(Event, MessageOpts, Delivery)
+	// PostbackHandler is called when the postback button has been pressed by recipient
+	PostbackHandler func(Event, MessageOpts, Postback)
+	// AuthenticationHandler is called when a new user joins/authenticates
+	AuthenticationHandler func(Event, MessageOpts, *Optin)
+	// MessageReadHandler is called when a message has been read by recipient
+	MessageReadHandler func(Event, MessageOpts, Read)
+	// MessageEchoHandler is called when a message is sent by your page
+	MessageEchoHandler func(Event, MessageOpts, MessageEcho)
 )
 
-// MessageReceivedHandler is called when a new message is received
-type MessageReceivedHandler func(Event, MessageOpts, ReceivedMessage)
+// DebugType describes available debug type options as documented on https://developers.facebook.com/docs/graph-api/using-graph-api#debugging
+type DebugType string
 
-// MessageDeliveredHandler is called when a message sent has been successfully delivered
-type MessageDeliveredHandler func(Event, MessageOpts, Delivery)
-
-// PostbackHandler is called when the postback button has been pressed by recipient
-type PostbackHandler func(Event, MessageOpts, Postback)
-
-// AuthenticationHandler is called when a new user joins/authenticates
-type AuthenticationHandler func(Event, MessageOpts, *Optin)
-
-// MessageReadHandler is called when a message has been read by recipient
-type MessageReadHandler func(Event, MessageOpts, Read)
-
-// MessageEchoHandler is called when a message is sent by your page
-type MessageEchoHandler func(Event, MessageOpts, MessageEcho)
+const (
+	// DebugAll returns all available debug messages
+	DebugAll DebugType = "all"
+	// DebugInfo returns debug messages with type info or warning
+	DebugInfo DebugType = "info"
+	// DebugWarning returns debug messages with type warning
+	DebugWarning DebugType = "warning"
+)
 
 // Messenger is the main service which handles all callbacks from facebook
 // Events are delivered to handlers if they are specified
@@ -39,7 +46,7 @@ type Messenger struct {
 	VerifyToken string
 	AppSecret   string
 	AccessToken string
-	PageID      string
+	Debug       DebugType
 
 	MessageReceived  MessageReceivedHandler
 	MessageDelivered MessageDeliveredHandler
@@ -138,6 +145,11 @@ func (m *Messenger) doRequest(method string, url string, body io.Reader) (*http.
 	req.Header.Set("Content-Type", "application/json")
 	query := req.URL.Query()
 	query.Set("access_token", m.AccessToken)
+
+	if m.Debug != "" {
+		query.Set("debug", string(m.Debug))
+	}
+
 	req.URL.RawQuery = query.Encode()
 	return http.DefaultClient.Do(req)
 }

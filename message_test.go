@@ -10,7 +10,9 @@ import (
 func TestSendMessageMarshalling(t *testing.T) {
 	//Avoid HTTPS in tests
 	GraphAPI = "http://example.com"
-	messenger := &Messenger{}
+	messenger := &Messenger{
+		Debug: DebugAll,
+	}
 
 	mockData := &MessageResponse{
 		RecipientID: "11213",
