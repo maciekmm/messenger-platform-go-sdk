@@ -117,7 +117,7 @@ func TestHandler(t *testing.T) {
 		mess.Postback = func(Event, MessageOpts, Postback) {
 			wg.Done()
 		}
-		mess.Authentication = func(Event, MessageOpts, *Optin) {
+		mess.Authentication = func(event Event, opts MessageOpts, optin *Optin) {
 			wg.Done()
 		}
 		mess.MessageRead = func(Event, MessageOpts, Read) {
@@ -127,7 +127,7 @@ func TestHandler(t *testing.T) {
 			wg.Done()
 		}
 
-		wg.Add(5)
+		wg.Add(6)
 		// received
 		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152703635,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152703534,"message":{"mid":"mid.1468152703527:6600c706f15a292027","seq":414,"text":"test"}}]}]}`)
 		// echo
@@ -138,6 +138,8 @@ func TestHandler(t *testing.T) {
 		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152897133,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152897070,"read":{"watermark":1468152706921,"seq":417}}]}]}`)
 		// postback
 		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152897212,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152897212,"postback":{"payload":"test"}}]}]}`)
+		// authentication
+		_ = r.Post("/", "application/json", `{"object":"page","entry":[{"id":"510249619162304","time":1468152897212,"messaging":[{"sender":{"id":"1066835436691078"},"recipient":{"id":"510249619162304"},"timestamp":1468152897212,"optin":{"ref":"test"}}]}]}`)
 
 		c := make(chan bool)
 		go func() {
