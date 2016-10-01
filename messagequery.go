@@ -6,6 +6,13 @@ import (
 	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
 
+type ContentType string
+
+const (
+	ContentTypeText     ContentType = "text"
+	ContentTypeLocation ContentType = "location"
+)
+
 type SendMessage struct {
 	Text         string       `json:"text,omitempty"`
 	Attachment   *Attachment  `json:"attachment,omitempty"`
@@ -14,9 +21,10 @@ type SendMessage struct {
 }
 
 type QuickReply struct {
-	ContentType string `json:"content_type"`
-	Title       string `json:"title,omitempty"`
-	Payload     string `json:"payload"`
+	ContentType ContentType `json:"content_type"`
+	Title       string      `json:"title,omitempty"`
+	Payload     string      `json:"payload,omitempty"`
+	ImageURL    string      `json:"image_url,omitempty"`
 }
 
 // Recipient describes the person who will receive the message
@@ -123,20 +131,31 @@ func (mq *MessageQuery) Template(tpl template.Template) error {
 }
 
 // Documentation: https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies#quick_reply
-func (mq *MessageQuery) QuickReply(title string, payload string) error {
+func (mq *MessageQuery) QuickReply(qr QuickReply) error {
+	//max 10 quick replies
+	if len(mq.Message.QuickReplies) >= 10 {
+		return errors.New("Number of quick replies is limited to 10")
+	}
+
+	//if location then no title or payload
+	if qr.ContentType == ContentTypeLocation && (len(qr.Title) != 0 || len(qr.Payload) != 0) {
+		return errors.New("Location ContentType supports neither title nor payload")
+	}
+
 	//title has a 20 character limit
-	if len(title) > 20 {
+	if len(qr.Title) > 20 {
 		return errors.New("Title is too long, it has a 20 character limit.")
 	}
 	//payload has a 1000 character limit
-	if len(payload) > 1000 {
+	if len(qr.Payload) > 1000 {
 		return errors.New("Payload is too long, it has a 1000 character limit.")
 	}
-	mq.Message.QuickReplies = append(mq.Message.QuickReplies, QuickReply{
-		ContentType: "text",
-		Title:       title,
-		Payload:     payload,
-	})
+
+	if len(qr.ContentType) == 0 {
+		qr.ContentType = ContentTypeText
+	}
+
+	mq.Message.QuickReplies = append(mq.Message.QuickReplies, qr)
 	return nil
 }
 

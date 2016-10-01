@@ -121,27 +121,64 @@ func TestTemplate(t *testing.T) {
 
 func TestQuickReply(t *testing.T) {
 	mq := MessageQuery{}
-	err := mq.QuickReply("Valid Title", "Valid Payload")
+
+	//Check if adding valid one works
+	err := mq.QuickReply(QuickReply{
+		Title:   "Valid",
+		Payload: "Valid",
+	})
 	if err != nil {
 		t.Error("Cannot add quick reply", err)
 	}
+	//Check if automatically populates
+	if mq.Message.QuickReplies[0].ContentType != ContentTypeText {
+		t.Error("ContentType was not populated")
+	}
+
 	//20 characters edge case
-	err = mq.QuickReply(randString(20), randString(1000))
+	err = mq.QuickReply(QuickReply{
+		Title:   randString(20),
+		Payload: randString(1000),
+	})
 	if err != nil {
 		t.Error("Cannot add quick reply", err)
 	}
-	err = mq.QuickReply(randString(100), randString(2000))
+
+	//Title too long
+	err = mq.QuickReply(QuickReply{
+		Title:   randString(100),
+		Payload: randString(100),
+	})
 	if err == nil {
 		t.Error("Can add an invalid quick reply")
 	}
-	err = mq.QuickReply(randString(20), randString(2000))
+
+	//Payload too long
+	err = mq.QuickReply(QuickReply{
+		Title:   randString(20),
+		Payload: randString(2000),
+	})
 	if err == nil {
 		t.Error("Can add an invalid quick reply")
 	}
-	for _, qr := range mq.Message.QuickReplies {
-		if qr.ContentType != "text" {
-			t.Error("QuickReply content type must be 'text'")
-		}
+
+	//Populate to the limit of 10 messages
+	//TODO: Thing whether we should use constant here (and above as well)
+	toAdd := 10 - len(mq.Message.QuickReplies)
+	for i := 0; i < toAdd; i++ {
+		err = mq.QuickReply(QuickReply{
+			Title:   "a",
+			Payload: "b",
+		})
+	}
+
+	//Adding a quick message over the limit should yield an error
+	err = mq.QuickReply(QuickReply{
+		Title:   randString(20),
+		Payload: randString(1000),
+	})
+	if err == nil {
+		t.Error("Can add quick reply over the limit", err)
 	}
 }
 

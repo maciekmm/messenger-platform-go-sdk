@@ -1,12 +1,16 @@
 package messenger
 
+import (
+	"encoding/json"
+)
+
 type AttachmentType string
 
 const (
 	AttachmentTypeTemplate AttachmentType = "template"
-	AttachmentTypeImage AttachmentType = "image"
-	AttachmentTypeVideo AttachmentType = "video"
-	AttachmentTypeAudio AttachmentType = "audio"
+	AttachmentTypeImage    AttachmentType = "image"
+	AttachmentTypeVideo    AttachmentType = "video"
+	AttachmentTypeAudio    AttachmentType = "audio"
 	AttachmentTypeLocation AttachmentType = "location"
 )
 
@@ -15,19 +19,38 @@ type Attachment struct {
 	Payload interface{}    `json:"payload,omitempty"`
 }
 
-// func (a *Attachment) MarshalJSON() ([]byte, error) {
-// 	if a.Type == "" {
-// 		switch a.Payload.(type) {
-// 		case template.Payload:
-// 			a.Type = AttachmentTypeTemplate
-// 		case Resource:
-// 			a.Type = AttachmentTypeImage //best guess
-// 		default:
-// 			return []byte{}, errors.New("Invalid payload")
-// 		}
-// 	}
-// 	return json.NewEncoder()
-// }
+type rawAttachment struct {
+	Type    AttachmentType  `json:"type"`
+	Payload json.RawMessage `json:"payload"`
+}
+
+func (a *Attachment) UnmarshalJSON(b []byte) error {
+	raw := &rawAttachment{}
+	err := json.Unmarshal(b, raw)
+	if err != nil {
+		return err
+	}
+	a.Type = raw.Type
+	var payload interface{}
+
+	switch a.Type {
+	case AttachmentTypeLocation:
+		payload = &Location{}
+	case AttachmentTypeTemplate:
+		//TODO: implement template unmarshalling
+		a.Payload = raw.Payload
+		return nil
+	default:
+		payload = &Resource{}
+	}
+
+	err = json.Unmarshal(raw.Payload, payload)
+	if err != nil {
+		return err
+	}
+	a.Payload = payload
+	return nil
+}
 
 type Resource struct {
 	URL string `json:"url"`
