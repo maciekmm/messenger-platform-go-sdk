@@ -8,8 +8,9 @@ import (
 )
 
 type MessageResponse struct {
-	RecipientID string `json:"recipient_id"`
-	MessageID   string `json:"message_id"`
+	RecipientID  string `json:"recipient_id"`
+	MessageID    string `json:"message_id"`
+	AttachmentID string `json:"attachment_id,omitempty"`
 }
 
 type rawMessage struct {

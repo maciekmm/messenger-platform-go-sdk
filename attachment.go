@@ -53,7 +53,12 @@ func (a *Attachment) UnmarshalJSON(b []byte) error {
 }
 
 type Resource struct {
-	URL string `json:"url"`
+	URL      string `json:"url"`
+	Reusable bool   `json:"is_reusable,omitempty"`
+}
+
+type ReusableAttachment struct {
+	AttachmentID string `json:"attachment_id"`
 }
 
 type Location struct {
