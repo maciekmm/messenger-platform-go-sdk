@@ -180,6 +180,16 @@ func TestQuickReply(t *testing.T) {
 	if err == nil {
 		t.Error("Can add quick reply over the limit", err)
 	}
+
+	//Location does not support title or payload
+	err = mq.QuickReply(QuickReply{
+		ContentType: ContentTypeLocation,
+		Title:       "Title",
+		Payload:     "Payload",
+	})
+	if err == nil {
+		t.Error("Can add quick reply of type location with title or payload")
+	}
 }
 
 func TestMetadata(t *testing.T) {
