@@ -98,6 +98,7 @@ func (m *Messenger) handlePOST(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	for _, entry := range event.Entries {
+		entry.Event.Request = req
 		for _, message := range entry.Messaging {
 			if message.Delivery != nil {
 				if m.MessageDelivered != nil {
