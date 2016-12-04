@@ -7,7 +7,7 @@ import (
 )
 
 func TestEventUnmarshalJSON(t *testing.T) {
-	rawPostbackData := []byte(`{"id":1234,"time":1458692752478}`)
+	rawPostbackData := []byte(`{"id":"1234","time":1458692752478}`)
 	rawPageData := []byte(`{"id":"1234","time":1458692752478}`)
 	postbackEvent := &Event{}
 	err := json.Unmarshal(rawPostbackData, postbackEvent)
