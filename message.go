@@ -57,3 +57,18 @@ func (m *Messenger) SendSimpleMessage(recipient string, message string) (*Messag
 		},
 	})
 }
+
+//SendImageMessage :
+func (m *Messenger) SendImageMessage(recipient string, imgUrl string) (*MessageResponse, error) {
+	img := make(map[string]string)
+	img["url"] = imgUrl
+	at := &Attachment{Type: AttachmentTypeImage, Payload: img}
+	return m.SendMessage(MessageQuery{
+		Recipient: Recipient{
+			ID: recipient,
+		},
+		Message: SendMessage{
+			Attachment: at,
+		},
+	})
+}
