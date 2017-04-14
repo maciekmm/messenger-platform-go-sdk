@@ -34,7 +34,7 @@ type MessageEvent struct {
 		Message  *MessageEcho `json:"message,omitempty"`
 		Delivery *Delivery    `json:"delivery,omitempty"`
 		Postback *Postback    `json:"postback,omitempty"`
-		Optin    *Optin       `json:"optin,empty"`
+		Optin    *Optin       `json:"optin,omitempty"`
 		Read     *Read        `json:"read,omitempty"`
 	} `json:"messaging"`
 }
