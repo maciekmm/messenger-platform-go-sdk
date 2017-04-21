@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/maciekmm/messenger-platform-go-sdk/template"
+	"github.com/mgilbir/messenger-platform-go-sdk/template"
 )
 
 type settingType string

@@ -3,7 +3,7 @@ package messenger
 import (
 	"testing"
 
-	"github.com/maciekmm/messenger-platform-go-sdk/template"
+	"github.com/mgilbir/messenger-platform-go-sdk/template"
 )
 
 func TestRandString(t *testing.T) {
