@@ -66,3 +66,20 @@ func TestAccountUnlinkButtonCreation(t *testing.T) {
 		t.Error("AccountLink button's url is not empty")
 	}
 }
+
+func TestShareButtonCreation(t *testing.T) {
+	button, err := NewShareButton()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if button.Payload != "" {
+		t.Error("Share button's payload is not empty")
+	}
+	if button.Title != "" {
+		t.Error("Share button's title is not empty")
+	}
+	if button.URL != "" {
+		t.Error("Share button's url is not empty")
+	}
+}
