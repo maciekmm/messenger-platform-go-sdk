@@ -36,6 +36,7 @@ type MessageEvent struct {
 		Postback *Postback    `json:"postback,omitempty"`
 		Optin    *Optin       `json:"optin,omitempty"`
 		Read     *Read        `json:"read,omitempty"`
+		Referral *Referral    `json:"referral,omitempty"`
 	} `json:"messaging"`
 }
 
