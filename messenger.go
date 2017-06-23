@@ -54,6 +54,8 @@ type Messenger struct {
 	Authentication   AuthenticationHandler
 	MessageRead      MessageReadHandler
 	MessageEcho      MessageEchoHandler
+
+	Client 			*http.Client
 }
 
 // Handler is the main HTTP handler for the Messenger service.
@@ -151,5 +153,10 @@ func (m *Messenger) doRequest(method string, url string, body io.Reader) (*http.
 	}
 
 	req.URL.RawQuery = query.Encode()
-	return http.DefaultClient.Do(req)
+
+	if m.Client != nil {
+		return m.Client.Do(req)
+	} else {
+		return http.DefaultClient.Do(req)
+	}
 }
