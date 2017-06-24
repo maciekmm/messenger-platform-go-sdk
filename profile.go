@@ -21,7 +21,7 @@ type Profile struct {
 // GetProfile fetches the recipient's profile from facebook platform
 // Non empty UserID has to be specified in order to receive the information
 func (m *Messenger) GetProfile(userID string) (*Profile, error) {
-	resp, err := m.doRequest("GET", fmt.Sprintf(GraphAPI+"/v2.6/%s?fields=first_name,last_name,picture,locale,timezone,gender", userID), nil)
+	resp, err := m.doRequest("GET", fmt.Sprintf(GraphAPI+"/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender", userID), nil)
 	if err != nil {
 		return nil, err
 	}
