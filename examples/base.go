@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/seenickcode/messenger-platform-go-sdk"
+	"github.com/maciekmm/messenger-platform-go-sdk"
 )
 
 var mess = &messenger.Messenger{

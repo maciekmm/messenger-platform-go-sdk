@@ -3,7 +3,7 @@ package messenger
 import (
 	"errors"
 
-	"github.com/seenickcode/messenger-platform-go-sdk/template"
+	"github.com/maciekmm/messenger-platform-go-sdk/template"
 )
 
 type ContentType string
