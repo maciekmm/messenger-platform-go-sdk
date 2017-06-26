@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/maciekmm/messenger-platform-go-sdk"
-	"github.com/maciekmm/messenger-platform-go-sdk/template"
+	"github.com/seenickcode/messenger-platform-go-sdk"
+	"github.com/seenickcode/messenger-platform-go-sdk/template"
 )
 
 func init() {
@@ -13,7 +13,7 @@ func init() {
 		mq.RecipientID(opts.Sender.ID)
 		mq.Template(template.GenericTemplate{Title: "abc",
 			Buttons: []template.Button{
-				template.Button{
+				{
 					Type:    template.ButtonTypePostback,
 					Payload: "test",
 					Title:   "abecadło",
