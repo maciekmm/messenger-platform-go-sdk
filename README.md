@@ -1,7 +1,7 @@
 Messenger Platform Go SDK
 =====
 
-[![Build Status](https://travis-ci.org/maciekmm/messenger-platform-go-sdk.svg?branch=master)](https://travis-ci.org/maciekmm/messenger-platform-go-sdk) 
+[![Build Status](https://travis-ci.org/maciekmm/messenger-platform-go-sdk.svg?branch=master)](https://travis-ci.org/maciekmm/messenger-platform-go-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/maciekmm/messenger-platform-go-sdk/badge.svg?branch=master)](https://coveralls.io/github/maciekmm/messenger-platform-go-sdk?branch=master)
 
 A Go SDK for the [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform).
@@ -14,7 +14,7 @@ go get gopkg.in/maciekmm/messenger-platform-go-sdk.v4
 
 ## Usage
 
-The main package has been named `messenger` for convenience. 
+The main package has been named `messenger` for convenience.
 
 Your first step is to create `Messenger` instance.
 
@@ -37,7 +37,7 @@ messenger := &messenger.Messenger {
 * `AccessToken` is required to send messages. You can find this token in your app developer dashboard under `Messenger` tab.
 * `Debug` is used for setting debug mode type as described on https://developers.facebook.com/docs/graph-api/using-graph-api#debugging. Optional.
 
-The next step is to hook up the handler to your HTTP server. 
+The next step is to hook up the handler to your HTTP server.
 
 ```go
 //hook up
@@ -62,7 +62,7 @@ func MessageReceived(event messenger.Event, opts messenger.MessageOpts, msg mess
 
 ## Example
 
-Check more examples in [examples folder.](https://github.com/maciekmm/messenger-platform-go-sdk/tree/master/examples)
+Check more examples in [examples folder.](https://github.com/seenickcode/messenger-platform-go-sdk/tree/master/examples)
 
 ```go
 var mess = &messenger.Messenger{
