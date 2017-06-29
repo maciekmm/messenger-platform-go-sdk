@@ -9,6 +9,7 @@ const (
 	ButtonTypePhoneNumber   ButtonType = "phone_number"
 	ButtonTypeAccountLink   ButtonType = "account_link"
 	ButtonTypeAccountUnlink ButtonType = "account_unlink"
+	ButtonTypeShare         ButtonType = "element_share"
 )
 
 type Button struct {
