@@ -2,7 +2,7 @@ package template
 
 import "testing"
 
-func TestGenericType(t *testing.T) {
+func TestListType(t *testing.T) {
 	template := &ListTemplate{}
 	if template.Type() != TemplateTypeList {
 		t.Error("List template returned invalid type")
