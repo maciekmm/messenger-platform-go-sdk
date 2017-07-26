@@ -1,5 +1,7 @@
 package messenger
 
+import "net/http"
+
 type upstreamEvent struct {
 	Object  string          `json:"object"`
 	Entries []*MessageEvent `json:"entry"`
@@ -8,8 +10,9 @@ type upstreamEvent struct {
 // Event represents a Webhook postback event.
 // https://developers.facebook.com/docs/messenger-platform/webhook-reference#format
 type Event struct {
-	ID   string `json:"id"`
-	Time int64  `json:"time"`
+	ID      string        `json:"id"`
+	Time    int64         `json:"time"`
+	Request *http.Request `json:"-"`
 }
 
 // MessageOpts contains information common to all message events.
