@@ -77,7 +77,7 @@ type Postback struct {
 // Referral contains content specific to a referal.
 // https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback
 type Referral struct {
-	Ref	string`json:"referral,omitempty"`
+	Ref	string`json:"ref,omitempty"`
 	Source  string`json:"source,omitempty"`
 	Type    string`json:"type,omitempty"`
 }
