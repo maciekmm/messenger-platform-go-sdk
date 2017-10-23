@@ -37,8 +37,9 @@ type MessageEvent struct {
 		Message  *MessageEcho `json:"message,omitempty"`
 		Delivery *Delivery    `json:"delivery,omitempty"`
 		Postback *Postback    `json:"postback,omitempty"`
-		Optin    *Optin       `json:"optin,empty"`
+		Optin    *Optin       `json:"optin,omitempty"`
 		Read     *Read        `json:"read,omitempty"`
+		Referral *Referral    `json:"referral,omitempty"`
 	} `json:"messaging"`
 }
 
@@ -72,7 +73,16 @@ type Delivery struct {
 // Postback contains content specific to a postback.
 // https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
 type Postback struct {
-	Payload string `json:"payload"`
+	Payload	 string `json:"payload"`
+	Referral *Referral `json:"referral,omitempty"`
+}
+
+// Referral contains content specific to a referal.
+// https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback
+type Referral struct {
+	Ref	string`json:"ref,omitempty"`
+	Source  string`json:"source,omitempty"`
+	Type    string`json:"type,omitempty"`
 }
 
 // Optin contains information specific to Opt-In callbacks.
