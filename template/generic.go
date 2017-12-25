@@ -7,9 +7,15 @@ type GenericTemplate struct {
 	Title    string `json:"title"`
 	ItemURL  string `json:"item_url,omitempty"`
 	ImageURL string `json:"image_url,omitempty"`
+	DefaultActionGeneric `json:"default_action,omitempty"`
 	// Subtitle is limited to 80 characters
 	Subtitle string   `json:"subtitle,omitempty"`
 	Buttons  []Button `json:"buttons,omitempty"`
+}
+
+type DefaultActionGeneric struct {
+	Type string `json:"type"` // Must be "web_url"
+	URL  string `json:"url",omitempty`
 }
 
 func (GenericTemplate) Type() TemplateType {
