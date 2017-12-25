@@ -14,8 +14,8 @@ type GenericTemplate struct {
 }
 
 type DefaultActionGeneric struct {
-	Type string `json:"type"` // Must be "web_url"
-	URL  string `json:"url",omitempty`
+	Type ButtonType `json:"type,omitempty"` // Must be "web_url"
+	URL  string `json:"url,omitempty"`
 }
 
 func (GenericTemplate) Type() TemplateType {
