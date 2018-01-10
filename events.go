@@ -90,14 +90,14 @@ type Referral struct {
 // The Pass Thread Control API of the handover protocol is used to pass control of a conversation from one app to another.
 // https://developers.facebook.com/docs/messenger-platform/handover-protocol/take-thread-control
 type PassThreadControl struct {
-	NewOwnerAppID	string`json:"new_owner_app_id,omitempty"`
+	NewOwnerAppID	int64 `json:"new_owner_app_id,omitempty"`
 	Metadata  		string`json:"metadata,omitempty"`
 }
 
 // Take Thread Control API allows the app with the Primary Receiver role to take control of the conversation 
 // https://developers.facebook.com/docs/messenger-platform/handover-protocol/pass-thread-control
 type TakeThreadControl struct {
-	PreviousOwnerAppID	string`json:"previous_owner_app_id,omitempty"`
+	PreviousOwnerAppID	int64 `json:"previous_owner_app_id,omitempty"`
 	Metadata  			string`json:"metadata,omitempty"`
 }
 
