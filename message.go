@@ -55,5 +55,6 @@ func (m *Messenger) SendSimpleMessage(recipient string, message string) (*Messag
 		Message: SendMessage{
 			Text: message,
 		},
+		MessagingType: MessagingTypeRegular,
 	})
 }
