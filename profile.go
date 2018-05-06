@@ -10,12 +10,12 @@ import (
 
 // Profile struct holds data associated with Facebook profile
 type Profile struct {
-	FirstName      string `json:"first_name"`
-	LastName       string `json:"last_name"`
-	ProfilePicture string `json:"profile_pic,omitempty"`
-	Locale         string `json:"locale,omitempty"`
-	Timezone       int    `json:"timezone,omitempty"`
-	Gender         string `json:"gender,omitempty"`
+	FirstName      string 	`json:"first_name"`
+	LastName       string 	`json:"last_name"`
+	ProfilePicture string 	`json:"profile_pic,omitempty"`
+	Locale         string 	`json:"locale,omitempty"`
+	Timezone       float64  `json:"timezone,omitempty"`
+	Gender         string 	`json:"gender,omitempty"`
 }
 
 // GetProfile fetches the recipient's profile from facebook platform

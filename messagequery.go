@@ -46,10 +46,62 @@ const (
 	NotificationTypeNoPush NotificationType = "NO_PUSH"
 )
 
+// MessagingType identifies the messaging type of the message being sent
+type MessagingType string
+
+const (
+	// MessagingTypeRegular is in response to a received message
+	MessagingTypeRegular MessagingType = "RESPONSE"
+	// MessagingTypeUpdate is being sent proactively and is not in response to a received message
+	MessagingTypeUpdate MessagingType = "UPDATE"
+	// MessagingTypeTag is non-promotional and is being sent outside the 24-hour standard messaging window
+	MessagingTypeTag MessagingType = "MESSAGE_TAG"
+)
+
+// MessageTag identifies the messaging type of the message being sent
+type MessageTag string
+
+const (
+	// MessageTagCommunityAlert notifies the message recipient of emergency or utility alerts, or issue a safety check in your community.
+	MessageTagCommunityAlert MessageTag = "COMMUNITY_ALERT"
+	// MessageTagEventReminder sends the message recipient reminders of a scheduled event which a person is going to attend.
+	MessageTagEventReminder MessageTag = "CONFIRMED_EVENT_REMINDER"
+	// MessageTagNonPromotionalSubscription sends non-promotional messages under the News, Productivity, and Personal Trackers, ...
+	MessageTagNonPromotionalSubscription MessageTag = "NON_PROMOTIONAL_SUBSCRIPTION"
+	// MessageTagPairingUpdate notifies the message recipient that a pairing has been identified based on a prior request.
+	MessageTagPairingUpdate MessageTag = "PAIRING_UPDATE"
+	// MessageTagApplicationUpdate notifies the message recipient of an update on the status of their application.
+	MessageTagApplicationUpdate MessageTag = "APPLICATION_UPDATE"
+	// MessageTagAccountUpdate notifies the message recipient of a change to their account settings.
+	MessageTagAccountUpdate MessageTag = "ACCOUNT_UPDATE"
+	// MessageTagPaymentUpdate notifies the message recipient of a payment update for an existing transaction.
+	MessageTagPaymentUpdate MessageTag = "PAYMENT_UPDATE"
+	// MessageTagPersonalFinanceUpdate confirms a message recipient's financial activity.
+	MessageTagPersonalFinanceUpdate MessageTag = "PERSONAL_FINANCE_UPDATE"
+	// MessageTagShippingUpdate notifies the message recipient of a change in shipping status for a product that has already been purchased.
+	MessageTagShippingUpdate MessageTag = "SHIPPING_UPDATE"
+	// MessageTagReservationUpdate notifies the message recipient of updates to an existing reservation.
+	MessageTagReservationUpdate MessageTag = "RESERVATION_UPDATE"
+	// MessageTagIssueResolution notifies the message recipient of an update to a customer service issue that was initiated in a Messenger conversation.
+	MessageTagIssueResolution MessageTag = "ISSUE_RESOLUTION"
+	// MessageTagAppointmentUpdate notifies the message recipient of a change to an existing appointment.
+	MessageTagAppointmentUpdate MessageTag = "APPOINTMENT_UPDATE"
+	// MessageTagGameEvent notifies the message recipient of a change in in-game user progression, global events, or a live sporting event.
+	MessageTagGameEvent MessageTag = "GAME_EVENT"
+	// MessageTagTransportationUpdate notifies the message recipient of updates to an existing transportation reservation.
+	MessageTagTransportationUpdate MessageTag = "TRANSPORTATION_UPDATE"
+	// MessageTagFeatureFuntionalityUpdate notifies the message recipient of new features or functionality that become available in your bot.
+	MessageTagFeatureFuntionalityUpdate MessageTag = "FEATURE_FUNCTIONALITY_UPDATE"
+	// MessageTagFeatureTickerUpdate send the message recipient updates or reminders for an event for which a person already has a ticket.
+	MessageTagFeatureTickerUpdate MessageTag = "TICKET_UPDATE"
+)
+
 type MessageQuery struct {
 	Recipient        Recipient        `json:"recipient"`
 	Message          SendMessage      `json:"message"`
 	NotificationType NotificationType `json:"notification_type,omitempty"`
+	MessagingType 	 MessagingType 	  `json:"messaging_type,omitempty"`
+	MessageTag 	 	 MessageTag 	  `json:"tag,omitempty"`
 }
 
 func (mq *MessageQuery) RecipientID(recipientID string) error {
@@ -70,6 +122,16 @@ func (mq *MessageQuery) RecipientPhoneNumber(phoneNumber string) error {
 
 func (mq *MessageQuery) Notification(notification NotificationType) *MessageQuery {
 	mq.NotificationType = notification
+	return mq
+}
+
+func (mq *MessageQuery) Type(messagingType MessagingType) *MessageQuery {
+	mq.MessagingType = messagingType
+	return mq
+}
+
+func (mq *MessageQuery) Tag(tag MessageTag) *MessageQuery {
+	mq.MessageTag = tag
 	return mq
 }
 

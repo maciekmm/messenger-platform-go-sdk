@@ -34,12 +34,14 @@ type MessageEvent struct {
 	Event
 	Messaging []struct {
 		MessageOpts
-		Message  *MessageEcho `json:"message,omitempty"`
-		Delivery *Delivery    `json:"delivery,omitempty"`
-		Postback *Postback    `json:"postback,omitempty"`
-		Optin    *Optin       `json:"optin,omitempty"`
-		Read     *Read        `json:"read,omitempty"`
-		Referral *Referral    `json:"referral,omitempty"`
+		Message  		  *MessageEcho 			`json:"message,omitempty"`
+		Delivery 		  *Delivery  			`json:"delivery,omitempty"`
+		Postback 		  *Postback    			`json:"postback,omitempty"`
+		Optin    	      *Optin       			`json:"optin,omitempty"`
+		Read     		  *Read        		    `json:"read,omitempty"`
+		Referral 	      *Referral    			`json:"referral,omitempty"`
+		PassThreadControl *PassThreadControl 	`json:"pass_thread_control,omitempty"`
+		TakeThreadControl *TakeThreadControl 	`json:"take_thread_control,omitempty"`
 	} `json:"messaging"`
 }
 
@@ -78,11 +80,25 @@ type Postback struct {
 }
 
 // Referral contains content specific to a referal.
-// https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback
+// https://developers.facebook.com/docs/messenger-platform/webhook-reference/referal
 type Referral struct {
 	Ref	string`json:"ref,omitempty"`
 	Source  string`json:"source,omitempty"`
 	Type    string`json:"type,omitempty"`
+}
+
+// The Pass Thread Control API of the handover protocol is used to pass control of a conversation from one app to another.
+// https://developers.facebook.com/docs/messenger-platform/handover-protocol/take-thread-control
+type PassThreadControl struct {
+	NewOwnerAppID	int64 `json:"new_owner_app_id,omitempty"`
+	Metadata  		string`json:"metadata,omitempty"`
+}
+
+// Take Thread Control API allows the app with the Primary Receiver role to take control of the conversation 
+// https://developers.facebook.com/docs/messenger-platform/handover-protocol/pass-thread-control
+type TakeThreadControl struct {
+	PreviousOwnerAppID	int64 `json:"previous_owner_app_id,omitempty"`
+	Metadata  			string`json:"metadata,omitempty"`
 }
 
 // Optin contains information specific to Opt-In callbacks.
