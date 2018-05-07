@@ -3,7 +3,7 @@ package messenger
 import (
 	"errors"
 
-	"github.com/maciekmm/messenger-platform-go-sdk/template"
+	"github.com/seenickcode/messenger-platform-go-sdk/template"
 )
 
 type ContentType string
@@ -184,11 +184,19 @@ func (mq *MessageQuery) Template(tpl template.Template) error {
 
 	for _, v := range payload.Elements {
 		if v.Type() != tpl.Type() {
-			return errors.New("All templates have to have thesame type.")
+			return errors.New("All templates have to have the same type.")
 		}
 	}
 
-	payload.Elements = append(payload.Elements, tpl)
+	if t, ok := tpl.(template.ButtonTemplate); ok {
+		payload.ButtonsText += t.Text
+		for _, b := range t.Buttons {
+			payload.Buttons = append(payload.Buttons, b)
+		}
+	} else {
+		payload.Elements = append(payload.Elements, tpl)
+	}
+
 	return nil
 }
 

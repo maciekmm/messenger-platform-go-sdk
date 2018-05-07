@@ -1,9 +1,6 @@
 package template
 
-import (
-	"encoding/json"
-	"errors"
-)
+import "encoding/json"
 
 type TemplateType string
 
@@ -13,20 +10,27 @@ type Template interface {
 }
 
 type Payload struct {
-	Elements []Template `json:"elements"`
+	Elements    []Template `json:"elements"`
+	Buttons     []Button   `json:"buttons"` // used only for the Button Template
+	ButtonsText string     `json:"text"`    //
 }
 
 type rawPayload struct {
-	Type     TemplateType `json:"template_type"`
-	Elements []Template   `json:"elements"`
+	Type        TemplateType `json:"template_type"`
+	Elements    []Template   `json:"elements,omitempty"`
+	Buttons     []Button     `json:"buttons,omitempty"` // used only for the Button Template
+	ButtonsText string       `json:"text,omitempty"`    //
 }
 
 func (p *Payload) MarshalJSON() ([]byte, error) {
 	rp := &rawPayload{}
-	if len(p.Elements) < 1 {
-		return []byte{}, errors.New("Elements slice cannot be empty")
-	}
 	rp.Elements = p.Elements
-	rp.Type = p.Elements[0].Type()
+	rp.Buttons = p.Buttons
+	if len(p.Elements) > 0 {
+		rp.Type = p.Elements[0].Type()
+	} else if len(p.Buttons) > 0 {
+		rp.Type = TemplateTypeButton
+		rp.ButtonsText = p.ButtonsText
+	}
 	return json.Marshal(rp)
 }

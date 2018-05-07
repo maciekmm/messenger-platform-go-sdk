@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/maciekmm/messenger-platform-go-sdk/template"
+	"github.com/seenickcode/messenger-platform-go-sdk/template"
 )
 
 type settingType string
@@ -106,7 +106,7 @@ func (m *Messenger) SetGetStartedButton(payload string) error {
 	result, err := m.changeThreadSettings(http.MethodPost, &threadSettings{
 		Type:          settingTypeCallToActions,
 		State:         threadStateNew,
-		CallToActions: []ctaPayload{ctaPayload{Payload: payload}},
+		CallToActions: []ctaPayload{{Payload: payload}},
 	})
 	if err != nil {
 		return err
